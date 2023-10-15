@@ -1,0 +1,38 @@
+.navbar-brand {
+    font-family: "Brush Script MT", cursive;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+h1 {
+    margin-top: 6%;
+    color: #63e983 !important;
+    font-family: "Brush Script MT", cursive;
+    font-size: 200%;
+}
+
+body {
+    background-color: #425569;
+    color: #c9ced4;
+    padding-top: 50px;
+    margin: 1% 5% 1% 5%;
+}
+
+a {
+    color: #63e983;
+    font-size: 100%;
+}
+
+a:hover {
+    color: #c9ced4;
+}
+
+p {
+    margin-top: 6%;
+    text-align: center;
+}

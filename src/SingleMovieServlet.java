@@ -125,8 +125,8 @@ public class SingleMovieServlet extends HttpServlet {
             ////////
 
             JsonObject infoContainer = new JsonObject();
-            infoContainer.add("stars_list", jsonArray);
-            infoContainer.add("genres_list", jsonArrayGenres);
+            infoContainer.add("movie_stars", jsonArray);
+            infoContainer.add("movie_genres", jsonArrayGenres);
 
             // Write JSON string to output
             out.write(infoContainer.toString());

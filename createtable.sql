@@ -4,75 +4,82 @@ USE moviedb;
 
 CREATE TABLE movies
 (	
-	id varchar(10) PRIMARY KEY,
-	title varchar(100) NOT NULL,
-    year integer NOT NULL,
-    director varchar(100) NOT NULL
+	id VARCHAR(10) DEFAULT '',
+	title VARCHAR(100) DEFAULT '',
+    year INTEGER NOT NULL,
+    director VARCHAR(100) DEFAULT '',
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE stars
 (	
-	id varchar(10) PRIMARY KEY,
-	name varchar(100) NOT NULL,
-    birthYear integer
+	id VARCHAR(10),
+	name VARCHAR(100) NOT NULL,
+    birthYear INTEGER,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE stars_in_movies
 (	
-	starId varchar(10) NOT NULL,
-    movieId varchar(10) NOT NULL,
+	starId VARCHAR(10) DEFAULT '',
+    movieId VARCHAR(10) DEFAULT '',
     FOREIGN KEY (starId) REFERENCES stars(id),
     FOREIGN KEY (movieId) REFERENCES movies(id)
 );
 
 CREATE TABLE genres
 (
-	id integer AUTO_INCREMENT PRIMARY KEY,
-    name varchar(32) NOT NULL
+	id INTEGER AUTO_INCREMENT,
+    name VARCHAR(32) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE genres_in_movies
 (
-	genreId integer NOT NULL,
-    movieId varchar(10) NOT NULL,
+	genreId INTEGER NOT NULL,
+    movieId VARCHAR(10) NOT NULL,
     FOREIGN KEY (genreId) REFERENCES genres(id),
     FOREIGN KEY (movieId) REFERENCES movies(id)
 );
 
 CREATE TABLE creditcards
 (
-	id varchar(20) PRIMARY KEY,
-    firstName varchar(50) NOT NULL,
-    lastName varchar(50) NOT NULL,
-    expiration date NOT NULL
+	id VARCHAR(20),
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    expiration DATE NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE customers
 (
-	id integer AUTO_INCREMENT PRIMARY KEY,
-	firstName varchar(50) NOT NULL,
-	lastName varchar(50) NOT NULL,
-	ccId varchar(20) NOT NULL,
-	address varchar(200) NOT NULL,
-	email varchar(50) NOT NULL,
-	password varchar(20) NOT NULL,
+	id INTEGER AUTO_INCREMENT,
+	firstName VARCHAR(50) NOT NULL,
+	lastName VARCHAR(50) NOT NULL,
+	ccId VARCHAR(20) NOT NULL,
+	address VARCHAR(200) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	password VARCHAR(20) NOT NULL,
+	PRIMARY KEY (id),
     FOREIGN KEY (ccId) REFERENCES creditcards(id)
 );
 
 CREATE TABLE sales
 (
-	id integer AUTO_INCREMENT PRIMARY KEY,
-    customerId integer NOT NULL,
-    movieId varchar(10) NOT NULL,
-    saleDate date NOT NULL,
+	id INTEGER AUTO_INCREMENT,
+    customerId INTEGER NOT NULL,
+    movieId VARCHAR(10) NOT NULL,
+    saleDate DATE NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (customerId) REFERENCES customers(id),
     FOREIGN KEY (movieId) REFERENCES movies(id)
 );
 
 CREATE TABLE ratings
 (
-	movieId varchar(10) NOT NULL,
-    rating float NOT NULL,
-    numVotes integer NOT NULL,
+	movieId VARCHAR(10) NOT NULL,
+    rating FLOAT NOT NULL,
+    numVotes INTEGER NOT NULL,
+    PRIMARY KEY (movieId),
     FOREIGN KEY (movieId) REFERENCES movies(id)
 );

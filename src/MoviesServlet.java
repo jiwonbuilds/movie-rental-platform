@@ -96,7 +96,7 @@ public class MoviesServlet extends HttpServlet {
                 }
                 rs_stars.close();
                 statement_stars.close();
-                jsonObject.add("stars_list", jsonArray_stars);
+                jsonObject.add("movie_stars", jsonArray_stars);
 
                 // GENRES LIST
                 Statement statement_genres = conn.createStatement();
@@ -113,7 +113,7 @@ public class MoviesServlet extends HttpServlet {
                 }
                 rs_genres.close();
                 statement_genres.close();
-                jsonObject.add("genres_list", jsonArray_genres);
+                jsonObject.add("movie_genres", jsonArray_genres);
 
                 //////////
 
