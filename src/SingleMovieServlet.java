@@ -70,7 +70,6 @@ public class SingleMovieServlet extends HttpServlet {
 
             // Iterate through each row of rs
             while (rs.next()) {
-
                 String starId = rs.getString("starId");
                 String starName = rs.getString("name");
                 String starDob = rs.getString("birthYear");

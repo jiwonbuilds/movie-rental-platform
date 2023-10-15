@@ -16,23 +16,42 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="styles.css">
     <title>Single Star</title>
+
+    <style>
+        .navbar-custom {
+            background-color: #5c6c7c;
+        }
+    </style>
 </head>
+
 <body>
-<h5><a href="index.html">Home</a></h5>
-<h1>Single Star Page</h1>
+
+<nav class="navbar navbar-expand-lg bg-dark fixed-top w-200">
+    <a class="navbar-brand" href="#">
+        <img src="fablix_logo.png" height="50" width="50" class="d-inline-block" alt="F">
+        Fablix
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
 <!-- single-star.js will find this html element by it's id "star_info" -->
 <h3 id="star_info"></h3>
-<table id=movie_table class="table table-striped">
-    <thead>
+<table id=movie_table class="table table-bordered table-striped">
+    <thead class="thead-dark thead-bordered">
     <tr>
         <th>Movie Title</th>
         <th>Release Year</th>
         <th>Director</th>
-        <th>
     </tr>
     </thead>
 
@@ -52,6 +71,8 @@
      otherwise the url is relative to the root path-->
 <script src="single-star.js"></script>
 </body>
-
+<footer>
+    <p>Copyright &copy; 2023 Jenny Lee. All rights reserved.</p>
+</footer>
 
 </html>

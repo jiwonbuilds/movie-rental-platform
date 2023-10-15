@@ -16,6 +16,13 @@ h1 {
     font-size: 200%;
 }
 
+h3 {
+    margin-top: 6%;
+    color: #63e983 !important;
+    font-family: "Gill Sans", serif;
+    font-size: 200%;
+}
+
 body {
     background-color: #425569;
     color: #c9ced4;
@@ -33,6 +40,11 @@ a:hover {
 }
 
 p {
+    text-align: center;
+}
+
+footer {
     margin-top: 6%;
+    color: #6c7b8c;
     text-align: center;
 }

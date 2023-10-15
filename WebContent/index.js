@@ -39,7 +39,7 @@ function handleMoviesResult(resultData) {
             resultData[i]["movie_genres"].slice(0, 3).join(", ") +
             "</td>";
         // movie star (upto 3)
-        rowHTML += "<td>"
+        rowHTML += "<td>";
         for (let j = 0; j < Math.min(3, resultData[i]["movie_stars"].length); j++) {
             if (j > 0) {
                 rowHTML += ", ";
