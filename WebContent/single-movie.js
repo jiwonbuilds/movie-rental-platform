@@ -57,22 +57,17 @@ function handleResult(resultData) {
     // Concatenate the html tags with resultData jsonObject to create table rows
     let rowHTML = "";
     rowHTML += "<tr>";
-    rowHTML += "<td>" + resultData[0]["movie_director"] + "</td>";
-    // rowHTML += "<td>" + resultData[0]["movie_genres"] + "</td>";
-    // rowHTML += "<td>" + resultData["movie_genres"][0] + "</td>";
-    // rowHTML += "<td>";
-    // for (let j = 0; j < resultData["movie_stars"].length; j++) {
-    //     if (j > 0) {
-    //         rowHTML += ", ";
-    //     }
-    //     rowHTML += '<a href="single-star.html?id=' + resultData[i]["movie_stars"][j]["star_id"] + '">' + resultData[i]["movie_stars"][j]["star_name"] + '</a>';
-    // }
-    // rowHTML += "</td>";
-    rowHTML += "<td>" + resultData[0]["movie_rating"] + "</td>";
-    rowHTML += "<td>" + "hello" + "</td>";
-    // rowHTML += "<td>" + "world" + "</td>";
-    // rowHTML += "<td>" + "this" + "</td>";
-    // rowHTML += "<td>" + "is" + "</td>";
+    rowHTML += "<td>" + resultData["movie_stars"][0]["movie_director"] + "</td>";
+    rowHTML += "<td>" + resultData["movie_genres"].join(", ") + "</td>";
+    rowHTML += "<td>";
+    for (let j = 0; j < resultData["movie_stars"].length; j++) {
+        if (j > 0) {
+            rowHTML += ", ";
+        }
+        rowHTML += '<a href="single-star.html?id=' + resultData["movie_stars"][j]["star_id"] + '">' + resultData["movie_stars"][j]["star_name"] + '</a>';
+    }
+    rowHTML += "</td>";
+    rowHTML += "<td>" + resultData["movie_stars"][0]["movie_rating"] + "</td>";
     rowHTML += "</tr>";
 
     // Append the row created to the table body, which will refresh the page
