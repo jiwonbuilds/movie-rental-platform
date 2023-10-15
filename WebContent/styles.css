@@ -1,5 +1,5 @@
 .navbar-brand {
-    font-family: "Brush Script MT", cursive;
+    font-family: "Gills Sans", serif;
 }
 
 .navbar {
@@ -12,7 +12,7 @@
 h1 {
     margin-top: 6%;
     color: #63e983 !important;
-    font-family: "Brush Script MT", cursive;
+    font-family: "Gill Sans", serif;
     font-size: 200%;
 }
 

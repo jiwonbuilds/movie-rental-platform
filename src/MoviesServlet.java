@@ -48,14 +48,14 @@ public class MoviesServlet extends HttpServlet {
             // Declare our statement
             Statement statement = conn.createStatement();
 
-            String query = "SELECT * from movies as m, ratings as r " +
-                    "where m.id = r.movieId " +
-                    "order by r.rating desc " + "limit 20";
+            String query = "SELECT * " +
+                    "FROM movies AS m, ratings AS r " +
+                    "WHERE m.id = r.movieId " +
+                    "ORDER BY r.rating DESC " +
+                    "LIMIT 20";
 
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
-
-//            JsonObject infoContainer = new JsonObject();
 
             JsonArray jsonArray = new JsonArray();
 
@@ -75,13 +75,13 @@ public class MoviesServlet extends HttpServlet {
                 jsonObject.addProperty("movie_director", movie_director);
                 jsonObject.addProperty("movie_rating", movie_rating);
 
-                //////////
-                // STARS LIST
                 Statement statement_stars = conn.createStatement();
 
-                String query_stars = "SELECT s.id, s.name from movies as m, stars_in_movies as sim, stars as s " +
-                        "where m.id = sim.movieId and s.id = sim.starId and m.id = \"" + movie_id + "\" " +
-                        "limit 3";
+                // Create movie_stars (upto 3 per movie)
+                String query_stars = "SELECT s.id, s.name " +
+                        "FROM movies AS m, stars_in_movies AS sim, stars AS s " +
+                        "WHERE m.id = sim.movieId AND s.id = sim.starId AND m.id = \"" + movie_id + "\" " +
+                        "LIMIT 3";
 
                 ResultSet rs_stars = statement_stars.executeQuery(query_stars);
 
@@ -98,12 +98,13 @@ public class MoviesServlet extends HttpServlet {
                 statement_stars.close();
                 jsonObject.add("movie_stars", jsonArray_stars);
 
-                // GENRES LIST
+                // Create movie_genres (upto 3 per movie)
                 Statement statement_genres = conn.createStatement();
 
-                String query_genres = "SELECT g.id, g.name from movies as m, genres_in_movies as gim, genres as g " +
-                        "where m.id = gim.movieId and g.id = gim.genreId and m.id = \"" + movie_id + "\" " +
-                        "limit 3";
+                String query_genres = "SELECT g.id, g.name " +
+                        "FROM movies AS m, genres_in_movies AS gim, genres AS g " +
+                        "WHERE m.id = gim.movieId AND g.id = gim.genreId AND m.id = \"" + movie_id + "\" " +
+                        "LIMIT 3";
 
                 ResultSet rs_genres = statement_genres.executeQuery(query_genres);
 
@@ -115,65 +116,10 @@ public class MoviesServlet extends HttpServlet {
                 statement_genres.close();
                 jsonObject.add("movie_genres", jsonArray_genres);
 
-                //////////
-
                 jsonArray.add(jsonObject);
             }
             rs.close();
             statement.close();
-
-//            infoContainer.add("movies_list", jsonArray);
-
-//            //////// STARS LIST
-//            Statement statement_stars = conn.createStatement();
-//
-//            String query_stars = "SELECT m.id AS mid, s.id AS sid, s.name from movies as m, stars_in_movies as sim, stars as s " +
-//                    "where m.id = sim.movieId and s.id = sim.starId";
-//
-//            ResultSet rs_stars = statement_stars.executeQuery(query_stars);
-//
-//            JsonObject json_stars = new JsonObject();
-//            while (rs_stars.next()) {
-//                JsonObject jsonObjectStar = new JsonObject();
-//                String star_id = rs_stars.getString("sid");
-//                String star_name = rs_stars.getString("name");
-//                jsonObjectStar.addProperty("star_id", star_id);
-//                jsonObjectStar.addProperty("star_name", star_name);
-//
-//                JsonArray innerArray = json_stars.getAsJsonArray(rs_stars.getString("mid"));
-//                if (innerArray == null) {
-//                    innerArray = new JsonArray();
-//                    json_stars.add(rs_stars.getString("mid"), innerArray);
-//                }
-//                innerArray.add(jsonObjectStar);
-//            }
-//            rs_stars.close();
-//            statement_stars.close();
-//            infoContainer.add("stars_list", json_stars);
-//
-//
-//            //////// GENRES LIST
-//            Statement statement_genres = conn.createStatement();
-//
-//            String query_genres = "SELECT m.id, g.name from movies as m, genres_in_movies as gim, genres as g " +
-//                    "where m.id = gim.movieId and g.id = gim.genreId";
-//
-//            ResultSet rs_genres = statement_genres.executeQuery(query_genres);
-//
-//            JsonObject json_genres = new JsonObject();
-//            while (rs_genres.next()) {
-//                JsonArray innerArray = json_genres.getAsJsonArray(rs_genres.getString("id"));
-//                if (innerArray == null) {
-//                    innerArray = new JsonArray();
-//                    json_genres.add(rs_genres.getString("id"), innerArray);
-//                }
-//                innerArray.add(rs_genres.getString("name"));
-//            }
-//            rs_genres.close();
-//            statement_genres.close();
-//            infoContainer.add("genres_list", json_genres);
-
-            //// Final Cleanup
 
             // Log to localhost log
             request.getServletContext().log("getting " + jsonArray.size() + " results");

@@ -53,8 +53,9 @@ public class SingleMovieServlet extends HttpServlet {
             // Get a connection from dataSource
 
             // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m, ratings as r " +
-                    "where m.id = sim.movieId and sim.starId = s.id and r.movieId = m.id and m.id = ?";
+            String query = "SELECT * " +
+                    "FROM stars AS s, stars_in_movies AS sim, movies AS m, ratings AS r " +
+                    "WHERE m.id = sim.movieId AND sim.starId = s.id AND r.movieId = m.id AND m.id = ?";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);
@@ -97,9 +98,10 @@ public class SingleMovieServlet extends HttpServlet {
             rs.close();
             statement.close();
 
-            /////// genres list
-            String query_genres = "SELECT g.name from genres as g, genres_in_movies as gim, movies as m " +
-                    "where m.id = gim.movieId and gim.genreId = g.id and m.id = ?";
+            // Create movie_genres
+            String query_genres = "SELECT g.name " +
+                    "FROM genres AS g, genres_in_movies AS gim, movies AS m " +
+                    "WHERE m.id = gim.movieId AND gim.genreId = g.id AND m.id = ?";
 
             // Declare our statement
             PreparedStatement statement_genres = conn.prepareStatement(query_genres);
@@ -121,7 +123,6 @@ public class SingleMovieServlet extends HttpServlet {
             }
             rs_genres.close();
             statement_genres.close();
-            ////////
 
             JsonObject infoContainer = new JsonObject();
             infoContainer.add("movie_stars", jsonArray);
