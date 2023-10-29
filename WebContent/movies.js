@@ -77,6 +77,8 @@ function callAjax(url) {
     });
 }
 
+
+
 let urlParams = new URLSearchParams(window.location.search);
 let newQuery = true;
 
@@ -145,3 +147,4 @@ if (newQuery && (urlParams.has("gid") || urlParams.has("titlePrefix"))) {
         + "&page=" + sessionStorage.getItem("page");
     callAjax(newURL);
 }
+

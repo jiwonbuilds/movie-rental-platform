@@ -119,6 +119,20 @@
     <tbody id=movies_listing></tbody>
 </table>
 
+
+<ul class="pagination">
+    <li class="page-item previous">
+        <a href="#" aria-controls="movie_table" data-dt-idx="0" class="page-link" id="prev-button">&laquo; Previous</a>
+    </li>
+    <li class="page-item active">
+        <a href="#" aria-controls="movie_table" data-dt-idx="1" class="page-link" id="current-page"></a>
+    </li>
+    <li class="page-item next">
+        <a href="#" aria-controls="movie_table" data-dt-idx="2" class="page-link" id="next-button">Next &raquo;</a>
+    </li>
+</ul>
+
+
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -130,6 +144,21 @@
      otherwise the url is relative to the root path-->
 <script src="movies.js"></script>
 <script>
+    document.getElementById("prev-button").addEventListener("click", function (event) {
+        event.preventDefault();
+        let currentPage = Math.max(sessionStorage.getItem("page") - 1, 1).toString();
+        sessionStorage.setItem("page", currentPage);
+        window.location.href = "movies.html?page=" + currentPage;
+    });
+    document.getElementById("next-button").addEventListener("click", function (event) {
+        event.preventDefault();
+        let currentPage = sessionStorage.getItem("page");
+        currentPage++;
+        sessionStorage.setItem("page", currentPage);
+        window.location.href = "movies.html?page=" + currentPage;
+    });
+    document.getElementById("current-page").textContent = sessionStorage.getItem("page");
+
     // Set selected values on page load
     document.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
