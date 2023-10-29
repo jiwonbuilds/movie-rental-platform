@@ -65,6 +65,6 @@ function handleMoviesResult(resultData) {
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: "api/movies", // Setting request url, which is mapped by MoviesServlet in MoviesServlet.java
+    url: "api/top20", // Setting request url, which is mapped by MoviesServlet in Top20Servlet.java
     success: (resultData) => handleMoviesResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

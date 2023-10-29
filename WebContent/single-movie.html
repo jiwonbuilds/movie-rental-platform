@@ -28,6 +28,7 @@
 
 <body>
 
+
 <nav class="navbar navbar-expand-lg bg-dark fixed-top w-200">
   <a class="navbar-brand" href="#">
     <img src="fablix_logo.png" height="50" width="50" class="d-inline-block" alt="F">
@@ -37,10 +38,34 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="main.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="top20.html">Top 20</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="movies.html">Results</a>
       </li>
     </ul>
+    <form class="form-inline my-2 my-lg-0" id="search_form" action="movies.html" method="get">
+      <div class="input-group mr-1">
+        <input type="text" class="form-control" name="mtitle" aria-label="Movie Title" placeholder="Title">
+      </div>
+      <div class="input-group mr-1">
+        <input type="text" class="form-control" name="myear" aria-label="Release Year" placeholder="Year">
+      </div>
+      <div class="input-group mr-1">
+        <input type="text" class="form-control" name="mdirector" aria-label="Movie Director" placeholder="Director">
+      </div>
+      <div class="input-group mr-1">
+        <input type="text" class="form-control" name="mstar" aria-label="Movie Star" placeholder="Star">
+      </div>
+      <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Search</button>
+    </form>
+    <!-- Add Shopping Cart -->
   </div>
+
+
 </nav>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->

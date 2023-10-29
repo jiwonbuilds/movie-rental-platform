@@ -16,9 +16,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 
-// Declaring a WebServlet called MoviesServlet, which maps to url "/api/movies"
-@WebServlet(name = "MoviesServlet", urlPatterns = "/api/movies")
-public class MoviesServlet extends HttpServlet {
+// Declaring a WebServlet called Top20Servlet, which maps to url "/api/top20"
+@WebServlet(name = "Top20Servlet", urlPatterns = "/api/top20")
+public class Top20Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.
