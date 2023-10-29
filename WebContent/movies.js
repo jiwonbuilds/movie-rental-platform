@@ -56,7 +56,27 @@ function handleMoviesResult(resultData) {
         ratingCell.innerHTML = "&star;&nbsp;" + resultData[i]["rating"];
         row.appendChild(ratingCell);
 
-        // appendChild(buttonForCart)
+        let cartButton = document.createElement("button");
+        cartButton.className = "hover-effect-button";
+        cartButton.textContent = "Add";
+        cartButton.style.cssText = "background: #5c6c7c; " +
+            "color: #63e983; border: none; padding: 10px 20px; border-radius: 5px; " +
+            "font-family: Gill Sans, serif; font-size: 14px;";
+        cartButton.addEventListener("click", function() {
+            $.ajax({
+                type: "POST",
+                url: "api/shopping-cart?action=add",
+                data: { mid: resultData[i]["movieId"],
+                    mtitle: resultData[i]["movieTitle"]},
+                success: function() {
+                    alert(resultData[i]["movieTitle"] + " added to your cart!");
+                }
+            });
+        });
+
+        let cartCell = document.createElement("td");
+        cartCell.appendChild(cartButton);
+        row.appendChild(cartCell);
 
         // Append the row created to the table body, which will refresh the page
         moviesListingBodyElement.append(row);
