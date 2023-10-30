@@ -4,7 +4,7 @@
 https://youtu.be/tUsDr4huWOo
 
 ### Website Link
-http://3.143.203.41:8080/manager/html
+http://3.143.203.41:8080/cs122b-project2/
 
 ### Substring Matching Design
 - Search (title, director, star)
