@@ -11,144 +11,136 @@ import jakarta.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
 @WebServlet(name = "SingleMovieServlet", urlPatterns = "/api/single-movie")
 public class SingleMovieServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
+    public static final String GENRE_QUERY =
+            "SELECT G.id, G.name " +
+                    "FROM genres_in_movies as GIM, genres as G " +
+                    "WHERE GIM.genreId = G.id AND GIM.movieId = ? " +
+                    "ORDER BY G.name ASC ;";
+    public static final String STAR_QUERY =
+            "SELECT S.id, S.name " +
+                    "FROM stars as S, stars_in_movies as SIM " +
+                    "WHERE S.id = SIM.starId AND SIM.movieId = ? " +
+                    "GROUP BY S.id " +
+                    "ORDER BY COUNT(SIM.movieId) DESC, S.name;";
+
     // Create a dataSource which registered in web.xml
     private DataSource dataSource;
 
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+            dataSource =
+                    (DataSource) new InitialContext()
+                            .lookup("java:comp/env/jdbc/moviedb");
         } catch (NamingException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.setContentType("application/json"); // Response mime type
-
-        // Retrieve parameter id from url request.
-        String id = request.getParameter("id");
-
-        // The log message can be found in localhost log
-        request.getServletContext().log("getting id: " + id);
-
-        // Output stream to STDOUT
-        PrintWriter out = response.getWriter();
-
-        // Get a connection from dataSource and let resource manager close the connection after usage.
-        try (Connection conn = dataSource.getConnection()) {
-            // Get a connection from dataSource
-
-            // Construct a query with parameter represented by "?"
-            String query = "SELECT * " +
-                    "FROM stars AS s, stars_in_movies AS sim, movies AS m, ratings AS r " +
-                    "WHERE m.id = sim.movieId AND sim.starId = s.id AND r.movieId = m.id AND m.id = ?";
-
-            // Declare our statement
-            PreparedStatement statement = conn.prepareStatement(query);
-
-            // Set the parameter represented by "?" in the query to the id we get from url,
-            // num 1 indicates the first "?" in the query
-            statement.setString(1, id);
-
-            // Perform the query
-            ResultSet rs = statement.executeQuery();
-
-            JsonArray jsonArray = new JsonArray();
-
-            // Iterate through each row of rs
-            while (rs.next()) {
-                String starId = rs.getString("starId");
-                String starName = rs.getString("name");
-                String starDob = rs.getString("birthYear");
-
-                String movieId = rs.getString("movieId");
-                String movieTitle = rs.getString("title");
-                String movieYear = rs.getString("year");
-                String movieDirector = rs.getString("director");
-                String movieRating= rs.getString("rating");
-
-                // Create a JsonObject based on the data we retrieve from rs
-
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("star_id", starId);
-                jsonObject.addProperty("star_name", starName);
-                jsonObject.addProperty("star_dob", starDob);
-                jsonObject.addProperty("movie_id", movieId);
-                jsonObject.addProperty("movie_title", movieTitle);
-                jsonObject.addProperty("movie_year", movieYear);
-                jsonObject.addProperty("movie_director", movieDirector);
-                jsonObject.addProperty("movie_rating", movieRating);
-
-                jsonArray.add(jsonObject);
-            }
-            rs.close();
-            statement.close();
-
-            // Create movie_genres
-            String query_genres = "SELECT g.name " +
-                    "FROM genres AS g, genres_in_movies AS gim, movies AS m " +
-                    "WHERE m.id = gim.movieId AND gim.genreId = g.id AND m.id = ?";
-
-            // Declare our statement
-            PreparedStatement statement_genres = conn.prepareStatement(query_genres);
-
-            // Set the parameter represented by "?" in the query to the id we get from url,
-            // num 1 indicates the first "?" in the query
-            statement_genres.setString(1, id);
-
-            // Perform the query
-            ResultSet rs_genres = statement_genres.executeQuery();
-
-            JsonArray jsonArrayGenres = new JsonArray();
-
-            // Iterate through each row of rs
-            while (rs_genres.next()) {
-                String genreName = rs_genres.getString("name");
-
-                jsonArrayGenres.add(genreName);
-            }
-            rs_genres.close();
-            statement_genres.close();
-
-            JsonObject infoContainer = new JsonObject();
-            infoContainer.add("movie_stars", jsonArray);
-            infoContainer.add("movie_genres", jsonArrayGenres);
-
-            // Write JSON string to output
-            out.write(infoContainer.toString());
-            // Set response status to 200 (OK)
-            response.setStatus(200);
-
-        } catch (Exception e) {
-            // Write error message JSON object to output
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("errorMessage", e.getMessage());
-            out.write(jsonObject.toString());
-
-            // Log error to localhost log
-            request.getServletContext().log("Error:", e);
-            // Set response status to 500 (Internal Server Error)
-            response.setStatus(500);
-        } finally {
-            out.close();
+    private List<Movie> getMoviesFromMySql(ResultSet resultSet) throws SQLException {
+        List<Movie> movies = new ArrayList<>();
+        while (resultSet.next()) {
+            Movie movie =
+                    Movie.newBuilder()
+                            .setMovieId(resultSet.getString("id"))
+                            .setMovieTitle(resultSet.getString("title"))
+                            .setMovieYear(resultSet.getInt("year"))
+                            .setMovieDirector(resultSet.getString("director"))
+                            .setMovieRating(resultSet.getFloat("rating"))
+                            .build();
+            movies.add(movie);
         }
-
-        // Always remember to close db connection after usage. Here it's done by try-with-resources
-
+        return movies;
     }
 
+    void decorateMoviesWithGenres(List<Movie> movies, Connection connection) throws SQLException {
+        for (Movie movie : movies) {
+            try (PreparedStatement genreStatement = connection.prepareStatement(GENRE_QUERY)) {
+                genreStatement.setString(1, movie.getMovieId());
+                try (ResultSet genreResultSet = genreStatement.executeQuery()) {
+                    while (genreResultSet.next()) {
+                        Genre genre =
+                                Genre.newBuilder()
+                                        .setGenreId(genreResultSet.getString("id"))
+                                        .setGenreName(genreResultSet.getString("name"))
+                                        .build();
+                        movie.addGenre(genre);
+                    }
+                }
+            }
+
+        }
+    }
+
+    void decorateMoviesWithStars(List<Movie> movies, Connection connection) throws SQLException {
+        for (Movie movie : movies) {
+            try (PreparedStatement starStatement = connection.prepareStatement(STAR_QUERY)) {
+                starStatement.setString(1, movie.getMovieId());
+                try (ResultSet starsResultSet = starStatement.executeQuery()) {
+                    while (starsResultSet.next()) {
+                        Star star =
+                                Star.newBuilder()
+                                        .setStarId(starsResultSet.getString("id"))
+                                        .setStarName(starsResultSet.getString("name"))
+                                        .build();
+                        movie.addStar(star);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+
+        String id = request.getParameter("id");
+
+        String MOVIE_QUERY =
+                "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
+                        "FROM movies M " +
+                        "JOIN ratings R ON R.movieId = M.id " +
+                        "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
+                        "WHERE M.id = '" + id + "';";
+
+        System.out.println(MOVIE_QUERY);
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(MOVIE_QUERY)) {
+
+            List<Movie> movies = getMoviesFromMySql(resultSet);
+            System.out.println("got movies: "+movies.size());
+            decorateMoviesWithGenres(movies, connection);
+            decorateMoviesWithStars(movies, connection);
+
+            JsonArray jsonArray = new JsonArray();
+            for (Movie movie : movies) {
+                jsonArray.add(movie.toJsonObject());
+                System.out.println("here");
+            }
+
+            response.getWriter().write(jsonArray.toString());
+            response.setStatus(HttpServletResponse.SC_OK);
+
+        } catch (Exception e) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("errorMessage", e.getMessage());
+            response.getWriter().write(jsonObject.toString());
+            request.getServletContext().log("Error:", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } finally {
+            response.getWriter().close();
+        }
+    }
 }
+

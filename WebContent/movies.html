@@ -159,11 +159,13 @@
         const sortValue = urlParams.get("sort") || sessionStorage.getItem("sort") || "1";
         document.getElementById("movie_table_sort_select").value = sortValue;
         sessionStorage.setItem("sort", sortValue);
+        sessionStorage.setItem("page", 1);
 
         // Set selected value for Rows per Page
         const rowsValue = urlParams.get("rowCount") || sessionStorage.getItem("rowCount") || "10";
         document.getElementById("movie_table_rowCount_select").value = rowsValue;
         sessionStorage.setItem("rowCount", rowsValue);
+        sessionStorage.setItem("page", 1);
     });
 </script>
 </body>

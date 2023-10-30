@@ -45,8 +45,8 @@ function handleResult(resultData) {
     let starInfoElement = jQuery("#movie_info");
 
     // append two html <p> created to the h3 body, which will refresh the page
-    starInfoElement.append("<p>" + resultData["movie_stars"][0]["movie_title"] +
-        " (" + resultData["movie_stars"][0]["movie_year"] + ")</p>");
+    starInfoElement.append("<p>" + resultData[0]["movieTitle"] +
+        " (" + resultData[0]["year"] + ")</p>");
 
     console.log("handleResult: populating movie table from resultData");
 
@@ -54,24 +54,37 @@ function handleResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
 
-    let row = document.createElement("tr");
 
     // Concatenate the html tags with resultData jsonObject to create table rows
-    let rowHTML = "";
+    let row = document.createElement("tr");
+    row.innerHTML =
+        '<td>' + resultData[0]["director"] + '</td>';
 
-    rowHTML += "<td>" + resultData["movie_stars"][0]["movie_director"] + "</td>";
-    rowHTML += "<td>" + resultData["movie_genres"].join(", ") + "</td>";
-    rowHTML += "<td>";
-    for (let j = 0; j < resultData["movie_stars"].length; j++) {
+    let genresHTML = "";
+    for (let j = 0; j < resultData[0]["genres"].length; j++) {
         if (j > 0) {
-            rowHTML += ", ";
+            genresHTML += ", ";
         }
-        rowHTML += '<a href="single-star.html?id=' + resultData["movie_stars"][j]["star_id"] + '">' + resultData["movie_stars"][j]["star_name"] + '</a>';
+        genresHTML += '<a href="movies.html?gid=' + resultData[0]["genres"][j]["genreId"] + '">' + resultData[0]["genres"][j]["genreName"] + '</a>';
     }
-    rowHTML += "</td>";
-    rowHTML += "<td>" + "&star;&nbsp;" + resultData["movie_stars"][0]["movie_rating"] + "</td>";
+    let genresCell = document.createElement("td");
+    genresCell.innerHTML = genresHTML;
+    row.appendChild(genresCell);
 
-    row.innerHTML = rowHTML;
+    let starsHTML = "";
+    for (let j = 0; j < resultData[0]["stars"].length; j++) {
+        if (j > 0) {
+            starsHTML += ", ";
+        }
+        starsHTML += '<a href="single-star.html?id=' + resultData[0]["stars"][j]["starId"] + '">' + resultData[0]["stars"][j]["starName"] + '</a>';
+    }
+    let starsCell = document.createElement("td");
+    starsCell.innerHTML = starsHTML;
+    row.appendChild(starsCell);
+
+    let ratingCell = document.createElement("td");
+    ratingCell.innerHTML = "&star;&nbsp;" + resultData[0]["rating"];
+    row.appendChild(ratingCell);
 
 
     let cartButton = document.createElement("button");
@@ -84,10 +97,10 @@ function handleResult(resultData) {
         $.ajax({
             type: "POST",
             url: "api/shopping-cart?action=add",
-            data: { mid: resultData["movie_stars"][0]["movie_id"],
-                mtitle: resultData["movie_stars"][0]["movie_title"]},
+            data: { mid: resultData[0]["movieId"],
+                mtitle: resultData[0]["movieTitle"]},
             success: function() {
-                alert(resultData["movie_stars"][0]["movie_title"] + " added to your cart!");
+                alert(resultData[0]["movieTitle"] + " added to your cart!");
             }
         });
     });
