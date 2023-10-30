@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 
             // Get information from result
             if (rs.next()) {
-                String user_id = rs.getString("id");
+                Integer user_id = rs.getInt("id");
                 String user_firstName = rs.getString("firstName");
                 String user_lastName = rs.getString("lastName");
                 String user_email = rs.getString("email");

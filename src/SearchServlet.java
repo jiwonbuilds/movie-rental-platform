@@ -101,13 +101,18 @@ public class SearchServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("HERE in SearchServlet");
+//        String BROWSE_QUERY =
+//                "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
+//                "FROM movies M " +
+//                "JOIN ratings R ON R.movieId = M.id " +
+//                "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
+//                "LEFT JOIN stars_in_movies SIM on SIM.movieId = M.id " +
+//                "LEFT JOIN stars S ON S.id = SIM.starID ";
         String BROWSE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
-                "FROM movies M " +
-                "JOIN ratings R ON R.movieId = M.id " +
-                "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
-                "JOIN stars_in_movies SIM on SIM.movieId = M.id " +
-                "JOIN stars S ON S.id = SIM.starID ";
+                        "FROM movies M " +
+                        "JOIN ratings R ON R.movieId = M.id " +
+                        "JOIN genres_in_movies GIM ON GIM.movieId = M.id ";
 
         response.setContentType("application/json"); // Response mime type
 
@@ -120,22 +125,28 @@ public class SearchServlet extends HttpServlet {
         String mstar = request.getParameter("mstar");
 
         String filterQuery = "WHERE ";
+        ArrayList<String> whereQuery = new ArrayList<>();
         if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
-            filterQuery += "M.title LIKE '" + mtitle + "%' ";
+            whereQuery.add("LOWER(M.title) LIKE '%" + mtitle + "%' ");
 //            session.setAttribute("mtitle", mtitle);
         }
         if (!"".equals(myear) && !myear.equals(session.getAttribute("myear"))) {
-            filterQuery += "M.year = " + myear + " ";
+            whereQuery.add("M.year = " + myear + " ");
 //            session.setAttribute("myear", myear);
         }
         if (!"".equals(mdirector) && !mdirector.equals(session.getAttribute("mdirector"))) {
-            filterQuery += "M.director LIKE '" + mdirector + "%' ";
+            whereQuery.add("LOWER(M.director) LIKE '%" + mdirector + "%' ");
 //            session.setAttribute("mdirector", mdirector);
         }
         if (!"".equals(mstar) && !mstar.equals(session.getAttribute("mstar"))) {
-            filterQuery += "S.name LIKE '" + mstar + "%' ";
+            whereQuery.add("EXISTS ( SELECT SIM.movieId FROM stars_in_movies SIM JOIN stars S ON S.id = SIM.starID WHERE LOWER(S.name) LIKE '"+ mstar + "%') ");
+
 //            session.setAttribute("mstar", mstar);
         }
+
+        filterQuery += String.join(" AND ", whereQuery);
+
+        System.out.println("filterQuery" + filterQuery);
 
         if (!"WHERE ".equals(filterQuery)) {
             BROWSE_QUERY += filterQuery;

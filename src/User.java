@@ -8,14 +8,14 @@ import java.util.List;
  * This User class  has the username field in this example.
  */
 public class User {
-    private final String username;
+    private final Integer username;
     private final String firstName;
     private final String lastName;
     private final String email;
     private final String password;
     private HashMap<String, CartItem> shoppingCart;
 
-    public User(String username, String firstName, String lastName, String email, String password) {
+    public User(Integer username, String firstName, String lastName, String email, String password) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,6 +46,18 @@ public class User {
     public String cartToJson() {
         Gson gson = new Gson();
         return gson.toJson(this.shoppingCart);
+    }
+
+    public HashMap<String, CartItem> getShoppingCart() {
+        return this.shoppingCart;
+    }
+
+    public void clearShppingCart() {
+        this.shoppingCart = new HashMap<>();
+    }
+
+    public Integer getId() {
+        return this.username;
     }
 
 }

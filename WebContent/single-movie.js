@@ -54,9 +54,11 @@ function handleResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
 
+    let row = document.createElement("tr");
+
     // Concatenate the html tags with resultData jsonObject to create table rows
     let rowHTML = "";
-    rowHTML += "<tr>";
+
     rowHTML += "<td>" + resultData["movie_stars"][0]["movie_director"] + "</td>";
     rowHTML += "<td>" + resultData["movie_genres"].join(", ") + "</td>";
     rowHTML += "<td>";
@@ -68,10 +70,35 @@ function handleResult(resultData) {
     }
     rowHTML += "</td>";
     rowHTML += "<td>" + "&star;&nbsp;" + resultData["movie_stars"][0]["movie_rating"] + "</td>";
-    rowHTML += "</tr>";
+
+    row.innerHTML = rowHTML;
+
+
+    let cartButton = document.createElement("button");
+    cartButton.className = "hover-effect-button";
+    cartButton.textContent = "Add";
+    cartButton.style.cssText = "background: #5c6c7c; " +
+        "color: #63e983; border: none; padding: 10px 20px; border-radius: 5px; " +
+        "font-family: Gill Sans, serif; font-size: 14px;";
+    cartButton.addEventListener("click", function() {
+        $.ajax({
+            type: "POST",
+            url: "api/shopping-cart?action=add",
+            data: { mid: resultData["movie_stars"][0]["movie_id"],
+                mtitle: resultData["movie_stars"][0]["movie_title"]},
+            success: function() {
+                alert(resultData["movie_stars"][0]["movie_title"] + " added to your cart!");
+            }
+        });
+    });
+
+    let cartCell = document.createElement("td");
+    cartCell.appendChild(cartButton);
+    row.appendChild(cartCell);
+
 
     // Append the row created to the table body, which will refresh the page
-    movieTableBodyElement.append(rowHTML);
+    movieTableBodyElement.append(row);
     // }
 }
 

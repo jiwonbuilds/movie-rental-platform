@@ -56,18 +56,39 @@ function handleResult(resultData) {
 
     // Concatenate the html tags with resultData jsonObject to create table rows
     for (let i = 0; i < Math.min(10, resultData.length); i++) {
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        rowHTML +=
+        let row = document.createElement("tr");
+        let rowHTML =
             "<td>" +
             '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">' + resultData[i]["movie_title"] + '</a>' +
             "</td>";
         rowHTML += "<td>" + resultData[i]["movie_year"] + "</td>";
         rowHTML += "<td>" + resultData[i]["movie_director"] + "</td>";
-        rowHTML += "</tr>";
+        row.innerHTML = rowHTML;
+
+        let cartButton = document.createElement("button");
+        cartButton.className = "hover-effect-button";
+        cartButton.textContent = "Add";
+        cartButton.style.cssText = "background: #5c6c7c; " +
+            "color: #63e983; border: none; padding: 10px 20px; border-radius: 5px; " +
+            "font-family: Gill Sans, serif; font-size: 14px;";
+        cartButton.addEventListener("click", function() {
+            $.ajax({
+                type: "POST",
+                url: "api/shopping-cart?action=add",
+                data: { mid: resultData[i]['movie_id'],
+                    mtitle: resultData[i]["movie_title"]},
+                success: function() {
+                    alert(resultData[i]["movie_title"] + " added to your cart!");
+                }
+            });
+        });
+
+        let cartCell = document.createElement("td");
+        cartCell.appendChild(cartButton);
+        row.appendChild(cartCell);
 
         // Append the row created to the table body, which will refresh the page
-        movieTableBodyElement.append(rowHTML);
+        movieTableBodyElement.append(row);
     }
 }
 

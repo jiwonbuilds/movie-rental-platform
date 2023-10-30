@@ -72,6 +72,15 @@ public class ShoppingCartServlet extends HttpServlet {
                 System.out.println("cart:" + user.cartToJson());
                 break;
             }
+            case "confirm": {
+                System.out.println("confirmation page info");
+                response.setContentType("application/json"); // Response mime type
+                response.getWriter().write(user.cartToJson());
+                System.out.println(user.cartToJson());
+                user.clearShppingCart();
+                System.out.println("cart cleared");
+                break;
+            }
         }
         response.setStatus(HttpServletResponse.SC_OK);
 
