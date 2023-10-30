@@ -1,27 +1,18 @@
-## CS 122B Project 1 (Jenny Lee)
-
-For this project, I implemented the Movie List, the Single Movie, and the Single Star page of the Fablix Application.
+## CS 122B Project 2 (Jenny Lee)
 
 ### Video Demo Link
-https://youtu.be/4iJPmfQsLT4
+(tbd)
 
 ### Website Link
-http://3.133.153.79:8080/cs122b-project1/
+(tbd)
 
-### Contribution
-- Jenny Lee (21leejenny)
+### Substring Matching Design
+- Search (title, director, star)
 ```
-Build pages
-Beautify pages using CSS
-Setup AWS
-Fix bugs
-Write README
-Create navigation bar
+%AZ%: All strings containing the pattern 'AZ' anywhere
 ```
-- Daniel Song (dan2972)
+- Browse (title)
 ```
-Setup basic pages
-Setup Github
-Wrote createtable.sql
-Implmement jump function
+'AZ%': All strings starting with the pattern 'AZ'
 ```
+
