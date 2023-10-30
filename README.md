@@ -1,10 +1,10 @@
 ## CS 122B Project 2 (Jenny Lee)
 
 ### Video Demo Link
-(tbd)
+https://youtu.be/tUsDr4huWOo
 
 ### Website Link
-(tbd)
+http://3.143.203.41:8080/manager/html
 
 ### Substring Matching Design
 - Search (title, director, star)
