@@ -36,14 +36,32 @@ function submitLoginForm(formSubmitEvent) {
      */
     formSubmitEvent.preventDefault();
 
-    $.ajax(
-        "api/login", {
-            method: "POST",
-            // Serialize the login form to the data sent by POST request
-            data: login_form.serialize(),
-            success: handleLoginResult
+    const recaptchaResponse = grecaptcha.getResponse();
+
+    if (recaptchaResponse.length === 0) {
+        $("#login_error_message").text("Please complete the reCAPTCHA.");
+        return;
+    }
+
+    $.ajax({
+        url: "form-recaptcha",
+        method: "POST",
+        data: login_form.serialize() + "&g-recaptcha-response=" + recaptchaResponse,
+        success: function(verifyRecaptcha) {
+            if (verifyRecaptcha == 1 || recaptchaResponse.length !== 0) {
+                $.ajax(
+                    "api/login", {
+                        method: "POST",
+                        // Serialize the login form to the data sent by POST request
+                        data: login_form.serialize(),
+                        success: handleLoginResult
+                    }
+                );
+            } else {
+                $("#login_error_message").text("Unable to verify reCAPTCHA");
+            }
         }
-    );
+    });
 }
 
 // Bind the submit action of the form to a handler function
