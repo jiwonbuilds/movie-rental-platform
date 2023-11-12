@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
     /**
@@ -35,25 +37,25 @@ public class LoginServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             String query = "SELECT * " +
                     "FROM customers " +
-                    "WHERE email = ? AND password = ?";
+                    "WHERE email = ?; ";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
-            statement.setString(2, password);
-
-            // Perform the query
             ResultSet rs = statement.executeQuery();
 
-            // Get information from result
             if (rs.next()) {
-                Integer user_id = rs.getInt("id");
-                String user_firstName = rs.getString("firstName");
-                String user_lastName = rs.getString("lastName");
-                String user_email = rs.getString("email");
-                String user_password = rs.getString("password");
-
-                return new User(user_id, user_firstName, user_lastName, user_email, user_password);
+                String password_encrypted = rs.getString("password");
+                boolean success = new StrongPasswordEncryptor().checkPassword(password, password_encrypted);
+                if (success) {
+                    Integer user_id = rs.getInt("id");
+                    String user_firstName = rs.getString("firstName");
+                    String user_lastName = rs.getString("lastName");
+                    String user_email = rs.getString("email");
+                    rs.close();
+                    statement.close();
+                    return new User(user_id, user_firstName, user_lastName, user_email, password_encrypted);
+                }
             }
             rs.close();
             statement.close();
