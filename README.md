@@ -9,12 +9,20 @@
 ***
 
 ### Files with Prepared Statements
+- BrowseServlet.java
+- LoginServlet.java
 - MainSAXParser.java
+- PaymentServlet.java
+- SearchServlet.java
+- SelectionServlet.java
+- SingleMovieServlet.java
+- SingleStarServlet.java
 
 ### Two Parsing Time Optimization Strategies
 1. **Streamlining Data Parsing and Insertion Through Batch Insertion**
 
     In parsing XML files for database population, a time optimization strategy was implemented using batch insertion for database operations. This involved grouping records into batches, significantly reducing both database connections and execution frequency. The efficiency gains were substantial, resulting in a notable improvement in overall performance. Comparative analysis with individual insertions demonstrated a significant reduction in overhead, as the batching strategy streamlined the process and minimized latency. This optimization proved highly effective in expediting insertion tasks for improved operational efficiency.
+
 
 2. **Leveraging In-Memory Hash Tables for Efficient Database Operations**
 

@@ -53,7 +53,7 @@ public class PaymentServlet extends HttpServlet {
 
             statement.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -62,51 +62,39 @@ public class PaymentServlet extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("in PaymentServlet");
-
-        String cardNum = request.getParameter("cardNum");
-
-        System.out.println("in PaymentServlet" + cardNum);
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        System.out.println("in PaymentServlet" + lastName);
-        Date date = Date.valueOf(request.getParameter("expDate"));
-
 
         String CARD_QUERY =
                 "SELECT * " +
                 "FROM creditcards " +
-                "WHERE id = '" + cardNum + "' AND firstName = '" + firstName +
-                    "' AND lastName = '" + lastName + "' AND expiration = '" + date + "'; ";
-
-        System.out.println(CARD_QUERY);
+                "WHERE id = ? AND firstName = ? AND lastName = ? AND expiration = ?; ";
 
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(CARD_QUERY)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(CARD_QUERY)) {
+            preparedStatement.setString(1, request.getParameter("cardNum"));
+            preparedStatement.setString(2, request.getParameter("firstName"));
+            preparedStatement.setString(3, request.getParameter("lastName"));
+            preparedStatement.setDate(4, Date.valueOf(request.getParameter("expDate")));
 
-            JsonObject jsonObject = new JsonObject();
-            boolean infoExists = confirmFromMySql(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                JsonObject jsonObject = new JsonObject();
+                boolean infoExists = confirmFromMySql(resultSet);
 
-            System.out.println("In PaymentServlet: "+infoExists);
-
-            if (infoExists) {
-                jsonObject.addProperty("status", "success");
-                jsonObject.addProperty("message", "success!");
-                User user = (User) request.getSession().getAttribute("user");
-                java.sql.Date timestamp = new java.sql.Date(System.currentTimeMillis());
-                for (Map.Entry<String, CartItem> itemEntry : user.getShoppingCart().entrySet()) {
-                    String mid = itemEntry.getKey();
-                    insertSaleRecord(user.getId(), mid, timestamp);
+                if (infoExists) {
+                    jsonObject.addProperty("status", "success");
+                    jsonObject.addProperty("message", "success!");
+                    User user = (User) request.getSession().getAttribute("user");
+                    java.sql.Date timestamp = new java.sql.Date(System.currentTimeMillis());
+                    for (Map.Entry<String, CartItem> itemEntry : user.getShoppingCart().entrySet()) {
+                        String mid = itemEntry.getKey();
+                        insertSaleRecord(user.getId(), mid, timestamp);
+                    }
+                } else {
+                    jsonObject.addProperty("status", "fail");
+                    jsonObject.addProperty("message", "Payment information incorrect!");
                 }
-            } else {
-                jsonObject.addProperty("status", "fail");
-                jsonObject.addProperty("message", "Payment information incorrect!");
+                response.getWriter().write(jsonObject.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
             }
-
-            response.getWriter().write(jsonObject.toString());
-            response.setStatus(HttpServletResponse.SC_OK);
-
         } catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 
-// Declaring a WebServlet called MoviesServlet, which maps to url "/api/movies"
+// Declaring a WebServlet called MoviesServlet, which maps to url "/api/browse"
 @WebServlet(name = "BrowseServlet", urlPatterns = "/api/browse")
 public class BrowseServlet extends HttpServlet {
     public static final String GENRE_QUERY =
@@ -108,8 +108,6 @@ public class BrowseServlet extends HttpServlet {
 
         response.setContentType("application/json"); // Response mime type
 
-        HttpSession session = request.getSession(true);
-
         // Retrieve parameter id from url request.
         String gid = request.getParameter("gid");
         String titlePrefix = request.getParameter("titlePrefix");
@@ -117,12 +115,11 @@ public class BrowseServlet extends HttpServlet {
         if ("*".equals(titlePrefix)) {
             BROWSE_QUERY += "WHERE M.title NOT REGEXP '^[a-zA-Z0-9]' ";
         } else if (!"".equals(titlePrefix)) {
-            BROWSE_QUERY += "WHERE UPPER(M.title) LIKE '" + titlePrefix + "%' ";
+            BROWSE_QUERY += "WHERE UPPER(M.title) LIKE ? ";
         } else {
-            BROWSE_QUERY += "WHERE GIM.genreId = " + gid + " ";
+            BROWSE_QUERY += "WHERE GIM.genreId = ? ";
         }
 
-        // The log message can be found in localhost log
         request.getServletContext().log("getting gid: " + gid);
         request.getServletContext().log("getting titlePrefix: " + titlePrefix);
 
@@ -134,28 +131,35 @@ public class BrowseServlet extends HttpServlet {
                 "R.rating ASC, M.title ASC", "R.rating ASC, M.title DESC", "R.rating DESC, M.title ASC", "R.rating DESC, M.title DESC"};
         int optionIndex = Integer.parseInt(request.getParameter("sort")) - 1;
         BROWSE_QUERY += "ORDER BY " + orderByOptions[optionIndex] + " "
-                        + "LIMIT " + rowCount + " "
-                        + "OFFSET " + offset + "; ";
+                        + "LIMIT ? "
+                        + "OFFSET ?; ";
 
-        System.out.println("HEREE" + BROWSE_QUERY);
-
-        // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(BROWSE_QUERY)) {
-
-            List<Movie> movies = getMoviesFromMySql(resultSet);
-            decorateMoviesWithGenres(movies, connection);
-            decorateMoviesWithStars(movies, connection);
-
-            JsonArray jsonArray = new JsonArray();
-            for (Movie movie : movies) {
-                jsonArray.add(movie.toJsonObject());
+             PreparedStatement preparedStatement = connection.prepareStatement(BROWSE_QUERY)) {
+            int parameterIndex = 1;
+            if ("*".equals(titlePrefix)) {
+                // No parameter for * case
+            } else if (!"".equals(titlePrefix)) {
+                preparedStatement.setString(parameterIndex++, titlePrefix + "%");
+            } else {
+                preparedStatement.setString(parameterIndex++, gid);
             }
+            preparedStatement.setInt(parameterIndex++, rowCount);
+            preparedStatement.setInt(parameterIndex, offset);
 
-            response.getWriter().write(jsonArray.toString());
-            response.setStatus(HttpServletResponse.SC_OK);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Movie> movies = getMoviesFromMySql(resultSet);
+                decorateMoviesWithGenres(movies, connection);
+                decorateMoviesWithStars(movies, connection);
 
+                JsonArray jsonArray = new JsonArray();
+                for (Movie movie : movies) {
+                    jsonArray.add(movie.toJsonObject());
+                }
+
+                response.getWriter().write(jsonArray.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
         } catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());

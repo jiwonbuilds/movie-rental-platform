@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import javax.sql.DataSource;
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -100,7 +101,6 @@ public class SearchServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("HERE in SearchServlet");
 
         String BROWSE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
@@ -108,7 +108,7 @@ public class SearchServlet extends HttpServlet {
                         "LEFT JOIN ratings R ON R.movieId = M.id " +
                         "JOIN genres_in_movies GIM ON GIM.movieId = M.id ";
 
-        response.setContentType("application/json"); // Response mime type
+        response.setContentType("application/json");
 
         HttpSession session = request.getSession(true);
 
@@ -121,26 +121,19 @@ public class SearchServlet extends HttpServlet {
         String filterQuery = "WHERE ";
         ArrayList<String> whereQuery = new ArrayList<>();
         if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
-            whereQuery.add("LOWER(M.title) LIKE '%" + mtitle + "%' ");
-//            session.setAttribute("mtitle", mtitle);
+            whereQuery.add("LOWER(M.title) LIKE ? ");
         }
         if (!"".equals(myear) && !myear.equals(session.getAttribute("myear"))) {
-            whereQuery.add("M.year = " + myear + " ");
-//            session.setAttribute("myear", myear);
+            whereQuery.add("M.year = ? ");
         }
         if (!"".equals(mdirector) && !mdirector.equals(session.getAttribute("mdirector"))) {
-            whereQuery.add("LOWER(M.director) LIKE '%" + mdirector + "%' ");
-//            session.setAttribute("mdirector", mdirector);
+            whereQuery.add("LOWER(M.director) LIKE ? ");
         }
         if (!"".equals(mstar) && !mstar.equals(session.getAttribute("mstar"))) {
-            whereQuery.add("EXISTS ( SELECT SIM.movieId FROM stars_in_movies SIM JOIN stars S ON S.id = SIM.starID WHERE LOWER(S.name) LIKE '"+ mstar + "%') ");
-
-//            session.setAttribute("mstar", mstar);
+            whereQuery.add("EXISTS ( SELECT SIM.movieId FROM stars_in_movies SIM JOIN stars S ON S.id = SIM.starID WHERE LOWER(S.name) LIKE ?) ");
         }
 
         filterQuery += String.join(" AND ", whereQuery);
-
-        System.out.println("filterQuery" + filterQuery);
 
         if (!"WHERE ".equals(filterQuery)) {
             BROWSE_QUERY += filterQuery;
@@ -148,17 +141,6 @@ public class SearchServlet extends HttpServlet {
             BROWSE_QUERY += "WHERE ";
         }
 
-        System.out.println("line144"+mtitle+" "+myear+" "+mdirector+" "+mstar);
-
-//        mtitle = (String) session.getAttribute("mtitle");
-//        myear = (String) session.getAttribute("myear");
-//        mdirector = (String) session.getAttribute("mdirector");
-//        mstar = (String) session.getAttribute("mstar");
-
-
-        System.out.println("line151"+mtitle+" "+myear+" "+mdirector+" "+mstar);
-
-        // The log message can be found in localhost log
         request.getServletContext().log("getting mtitle: " + mtitle);
         request.getServletContext().log("getting myear: " + myear);
         request.getServletContext().log("getting mdirector: " + mdirector);
@@ -172,27 +154,41 @@ public class SearchServlet extends HttpServlet {
                 "R.rating ASC, M.title ASC", "R.rating ASC, M.title DESC", "R.rating DESC, M.title ASC", "R.rating DESC, M.title DESC"};
         int optionIndex = Integer.parseInt(request.getParameter("sort")) - 1;
         BROWSE_QUERY += "ORDER BY " + orderByOptions[optionIndex] + " "
-                + "LIMIT " + rowCount + " "
-                + "OFFSET " + offset + "; ";
+                + "LIMIT ? "
+                + "OFFSET ? ";
 
-        System.out.println(BROWSE_QUERY);
-
-        // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(BROWSE_QUERY)) {
-
-            List<Movie> movies = getMoviesFromMySql(resultSet);
-            decorateMoviesWithGenres(movies, connection);
-            decorateMoviesWithStars(movies, connection);
-
-            JsonArray jsonArray = new JsonArray();
-            for (Movie movie : movies) {
-                jsonArray.add(movie.toJsonObject());
+             PreparedStatement preparedStatement = connection.prepareStatement(BROWSE_QUERY)) {
+            int parameterIndex = 1;
+            if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
+                preparedStatement.setString(parameterIndex++, "%" + mtitle + "%");
+            }
+            if (!"".equals(myear) && !myear.equals(session.getAttribute("myear"))) {
+                preparedStatement.setInt(parameterIndex++, Integer.parseInt(myear));
+            }
+            if (!"".equals(mdirector) && !mdirector.equals(session.getAttribute("mdirector"))) {
+                preparedStatement.setString(parameterIndex++, "%" + mdirector + "%");
+            }
+            if (!"".equals(mstar) && !mstar.equals(session.getAttribute("mstar"))) {
+                preparedStatement.setString(parameterIndex++, "%" + mstar + "%");
             }
 
-            response.getWriter().write(jsonArray.toString());
-            response.setStatus(HttpServletResponse.SC_OK);
+            preparedStatement.setInt(parameterIndex++, rowCount);
+            preparedStatement.setInt(parameterIndex, offset);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Movie> movies = getMoviesFromMySql(resultSet);
+                decorateMoviesWithGenres(movies, connection);
+                decorateMoviesWithStars(movies, connection);
+
+                JsonArray jsonArray = new JsonArray();
+                for (Movie movie : movies) {
+                    jsonArray.add(movie.toJsonObject());
+                }
+
+                response.getWriter().write(jsonArray.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
 
         } catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
@@ -203,6 +199,7 @@ public class SearchServlet extends HttpServlet {
         } finally {
             response.getWriter().close();
         }
+
     }
 
 }

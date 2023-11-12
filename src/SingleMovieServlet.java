@@ -18,7 +18,6 @@ import java.util.List;
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
 @WebServlet(name = "SingleMovieServlet", urlPatterns = "/api/single-movie")
 public class SingleMovieServlet extends HttpServlet {
-    private static final long serialVersionUID = 2L;
 
     public static final String GENRE_QUERY =
             "SELECT G.id, G.name " +
@@ -103,35 +102,29 @@ public class SingleMovieServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
 
-        String id = request.getParameter("id");
-
         String MOVIE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
                         "FROM movies M " +
                         "LEFT JOIN ratings R ON R.movieId = M.id " +
                         "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
-                        "WHERE M.id = '" + id + "';";
-
-        System.out.println(MOVIE_QUERY);
+                        "WHERE M.id = ?;";
 
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(MOVIE_QUERY)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(MOVIE_QUERY)) {
+            preparedStatement.setString(1, request.getParameter("id"));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Movie> movies = getMoviesFromMySql(resultSet);
+                decorateMoviesWithGenres(movies, connection);
+                decorateMoviesWithStars(movies, connection);
 
-            List<Movie> movies = getMoviesFromMySql(resultSet);
-            System.out.println("got movies: "+movies.size());
-            decorateMoviesWithGenres(movies, connection);
-            decorateMoviesWithStars(movies, connection);
+                JsonArray jsonArray = new JsonArray();
+                for (Movie movie : movies) {
+                    jsonArray.add(movie.toJsonObject());
+                }
 
-            JsonArray jsonArray = new JsonArray();
-            for (Movie movie : movies) {
-                jsonArray.add(movie.toJsonObject());
-                System.out.println("here");
+                response.getWriter().write(jsonArray.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
             }
-
-            response.getWriter().write(jsonArray.toString());
-            response.setStatus(HttpServletResponse.SC_OK);
-
         } catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
