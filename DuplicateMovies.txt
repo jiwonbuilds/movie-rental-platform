@@ -1,0 +1,54 @@
+Movie Details - ID: CC80, Title: Limelight, Year: 1952, Director: Chaplin.
+Movie Details - ID: ECn107, Title: Captain January, Year: 1924, Director: Cline.
+Movie Details - ID: JuD11, Title: La Fin de Jour, Year: 1939, Director: Duvivier.
+Movie Details - ID: FB21, Title: Liliom, Year: 1930, Director: Borzage.
+Movie Details - ID: GCt30, Title: The Rat, Year: 1927, Director: Cutts.
+Movie Details - ID: FNm10, Title: Doctor Jack, Year: 1922, Director: Newmeyer.
+Movie Details - ID: RC5, Title: Two Timid Souls, Year: 1928, Director: Clair.
+Movie Details - ID: MLR6, Title: Five Star Final, Year: 1932, Director: M.LeRoy.
+Movie Details - ID: RdR38, Title: Upperworld, Year: 1934, Director: delRuth.
+Movie Details - ID: IAg10, Title: Send For Paul Temple, Year: 1931, Director: Argyle.
+Movie Details - ID: OP13, Title: Forever Amber, Year: 1947, Director: Preminger.
+Movie Details - ID: GSt3, Title: The Nitwits, Year: 1935, Director: G.Stevens~sr..
+Movie Details - ID: ChC5, Title: Against the Wind, Year: 1947, Director: Ch.Crichton.
+Movie Details - ID: ChC12, Title: Law and Disorder, Year: 1958, Director: Ch.Crichton.
+Movie Details - ID: ChC15, Title: Wild Duck, Year: 1967, Director: Ch.Crichton.
+Movie Details - ID: PaJ2, Title: Ferry Pilot, Year: 1941, Director: P.Jackson.
+Movie Details - ID: FZ8, Title: The Men, Year: 1950, Director: Zinneman.
+Movie Details - ID: MRs21, Title: Peyton Place, Year: 1958, Director: Robson.
+Movie Details - ID: LAl4, Title: Those Endearing Young Charms, Year: 1946, Director: L.Allan.
+Movie Details - ID: CoB1, Title: The Seventh Veil, Year: 1945, Director: Bennett.
+Movie Details - ID: NR1, Title: They Live By Night, Year: 1947, Director: N.Ray.
+Movie Details - ID: HyC10, Title: Last Holiday, Year: 1950, Director: Cass.
+Movie Details - ID: JLT50, Title: Allan Quatermain and the Lost City of Gold, Year: 1986, Director: LeeThompson.
+Movie Details - ID: JIv42, Title: The Remains of the Day, Year: 1993, Director: Ivory.
+Movie Details - ID: SR45, Title: The Adversary, Year: 1971, Director: S.Ray.
+Movie Details - ID: GeP15, Title: Murder Most Foul, Year: 1964, Director: Pollock.
+Movie Details - ID: ArH205, Title: The Klansmen, Year: 1968, Director: Hiller.
+Movie Details - ID: MBo12, Title: The Legend of Aneus, Year: 1962, Director: Bonnard.
+Movie Details - ID: GxR10, Title: , Year: 1954, Director: G.Reinhardt.
+Movie Details - ID: GxR10, Title: , Year: 1954, Director: G.Reinhardt.
+Movie Details - ID: JaS13, Title: The Dark Pool, Year: 1963, Director: Smight.
+Movie Details - ID: KRu25, Title: Rainbow, Year: 1989, Director: K.Russell.
+Movie Details - ID: MAp43, Title: Moving the Mountain, Year: 1994, Director: Apted.
+Movie Details - ID: FrW10, Title: Titicut Follies, Year: 1967, Director: Wiseman.
+Movie Details - ID: JRl10, Title: Virgins and Vampires, Year: 1972, Director: Rollin.
+Movie Details - ID: PDu10, Title: Experience Preferred...But Not Essential, Year: 1971, Director: M.Laughlin.
+Movie Details - ID: MeW10, Title: Daughter of Frankenstein, Year: 1972, Director: M.Welles.
+Movie Details - ID: JKp35, Title: Brokedown Palace, Year: 1999, Director: J.Kaplan.
+Movie Details - ID: GeM17, Title: Lorenzo's Oil, Year: 1992, Director: Geo.Miller.
+Movie Details - ID: MxS10, Title: Tales from the Vienna Woods, Year: 1979, Director: Schell.
+Movie Details - ID: NiM30, Title: Star Trek, Generations, Year: 1994, Director: N.Meyer.
+Movie Details - ID: DDo15, Title: Keiner liebt mich, Year: 1990, Director: Dorrie.
+Movie Details - ID: FOR12, Title: Scream Queen Hot Tub Party, Year: 1984, Director: F.O.Ray.
+Movie Details - ID: PAl4, Title: Matador, Year: 1985, Director: Almodovar.
+Movie Details - ID: BLe5, Title: Tin Men, Year: 1987, Director: B.Levinson.
+Movie Details - ID: KaK10, Title: Another Way, Year: 1982, Director: Makk.
+Movie Details - ID: LeN10, Title: The Good Mother, Year: 1988, Director: Nimoy.
+Movie Details - ID: AKo15, Title: The Inner Circle, Year: 1992, Director: Konchalovsky.
+Movie Details - ID: ThS5, Title: Kingfish: A Story of Huey P. Long, Year: 1995, Director: Schlamme.
+Movie Details - ID: AnL15, Title: Crouching Tiger, Hidden Dragon, Year: 2000, Director: A..Lee.
+Movie Details - ID: MiM10, Title: I Got the Hook-Up, Year: 1998, Director: M.Martin.
+Movie Details - ID: NtB10, Title: On the Ropes, Year: 1999, Director: Brett Morgen.
+Movie Details - ID: PSv10, Title: Metroland, Year: 1999, Director: P.Saville.
+Movie Details - ID: SfG1, Title: Lost in Translation, Year: 2003, Director: Sofia~Coppola.

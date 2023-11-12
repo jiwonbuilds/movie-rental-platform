@@ -14,10 +14,28 @@ public class Movie {
     private List<Star> stars = new ArrayList<>();
     private List<Genre> genres = new ArrayList<>();
 
+    public Movie() {
+    }
+
+    public Movie(String mid) {
+        this.movieId = mid;
+    }
+
+    public Movie(String mid, String mtitle, int year, String mdirector, List categories) {
+        this.movieId = mid;
+        this.movieTitle = mtitle;
+        this.year = year;
+        this.director = mdirector;
+        this.genres = categories;
+    }
+
     // Assume a builder method for Movie class
     public static MovieBuilder newBuilder() {
         return new MovieBuilder();
     }
+
+
+
 
     // Assume a builder class for Movie
     public static class MovieBuilder {
@@ -62,6 +80,24 @@ public class Movie {
     public String getMovieId() {
         return this.movieId;
     }
+    public String getMovieTitle() { return this.movieTitle; }
+    public Integer getMovieYear() { return this.year; }
+    public String getMovieDirector() { return this.director; }
+    public List<Genre> getMovieGenres() { return this.genres; }
+    public List<Star> getMovieStars() { return this.stars; }
+
+    public void setMovieId(String mid) {
+        this.movieId = mid;
+    }
+    public void setMovieTitle(String mtitle) {
+        this.movieTitle = mtitle;
+    }
+    public void setYear(Integer myear) {
+        this.year = myear;
+    }
+    public void setDirector(String mdirector) {
+        this.director = mdirector;
+    }
 
     public JsonObject toJsonObject() {
         JsonObject movieJson = new JsonObject();
@@ -85,5 +121,19 @@ public class Movie {
 
         return movieJson;
     }
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Movie Details - ");
+        sb.append("ID: " + this.movieId);
+        sb.append(", ");
+        sb.append("Title: " + this.movieTitle);
+        sb.append(", ");
+        sb.append("Year: " + this.year);
+        sb.append(", ");
+        sb.append("Director: " + this.director);
+        sb.append(".");
+        return sb.toString();
+    }
 }
+
 

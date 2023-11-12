@@ -8,9 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,7 @@ public class SingleMovieServlet extends HttpServlet {
         String MOVIE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
                         "FROM movies M " +
-                        "JOIN ratings R ON R.movieId = M.id " +
+                        "LEFT JOIN ratings R ON R.movieId = M.id " +
                         "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
                         "WHERE M.id = '" + id + "';";
 

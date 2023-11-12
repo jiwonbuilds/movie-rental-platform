@@ -53,7 +53,11 @@ function handleMoviesResult(resultData) {
         row.appendChild(starsCell);
 
         let ratingCell = document.createElement("td");
-        ratingCell.innerHTML = "&star;&nbsp;" + resultData[i]["rating"];
+        if (resultData[i]["rating"] !== 0) {
+            ratingCell.innerHTML = "&star;&nbsp;" + resultData[i]["rating"];
+        } else {
+            ratingCell.innerHTML = "N/A";
+        }
         row.appendChild(ratingCell);
 
         let cartButton = document.createElement("button");

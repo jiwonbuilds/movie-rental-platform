@@ -101,17 +101,11 @@ public class SearchServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("HERE in SearchServlet");
-//        String BROWSE_QUERY =
-//                "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
-//                "FROM movies M " +
-//                "JOIN ratings R ON R.movieId = M.id " +
-//                "JOIN genres_in_movies GIM ON GIM.movieId = M.id " +
-//                "LEFT JOIN stars_in_movies SIM on SIM.movieId = M.id " +
-//                "LEFT JOIN stars S ON S.id = SIM.starID ";
+
         String BROWSE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
                         "FROM movies M " +
-                        "JOIN ratings R ON R.movieId = M.id " +
+                        "LEFT JOIN ratings R ON R.movieId = M.id " +
                         "JOIN genres_in_movies GIM ON GIM.movieId = M.id ";
 
         response.setContentType("application/json"); // Response mime type

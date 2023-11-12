@@ -7,6 +7,21 @@ import com.google.gson.JsonObject;
 public class Star {
     private String starId;
     private String starName;
+    private Integer starYear;
+
+    public Star () {
+
+    }
+
+    public Star(String sname) {
+        this.starName = sname;
+    }
+
+    public Star(String sid, String sname, Integer syear) {
+        this.starId = sid;
+        this.starName = sname;
+        this.starYear = syear;
+    }
 
 
     // Assume a builder method for Movie class
@@ -37,7 +52,14 @@ public class Star {
         }
     }
 
-
+    public String getStarName() { return this.starName; }
+    public Integer getStarYear() { return this.starYear; }
+    public void setStarName(String sname) {
+        this.starName = sname;
+    }
+    public void setStarYear(Integer syear) {
+        this.starYear = syear;
+    }
 
     public JsonObject toJsonObject() {
         JsonObject starJson = new JsonObject();

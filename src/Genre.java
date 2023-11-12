@@ -8,6 +8,13 @@ public class Genre {
     private String genreId;
     private String genreName;
 
+    public Genre() {
+
+    }
+    public Genre(String gname) {
+        this.genreName = gname;
+    }
+
 
     // Assume a builder method for Movie class
     public static GenreBuilder newBuilder() {
@@ -37,11 +44,26 @@ public class Genre {
         }
     }
 
+    public String getGenreName() {
+        return this.genreName;
+    }
+
     public JsonObject toJsonObject() {
         JsonObject starJson = new JsonObject();
         starJson.addProperty("genreId", this.genreId);
         starJson.addProperty("genreName", this.genreName);
         return starJson;
     }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Genre Details - ");
+        sb.append("ID: " + this.genreId);
+        sb.append(", ");
+        sb.append("Name: " + this.genreName);
+        sb.append(". ");
+        return sb.toString();
+    }
 }
+
 

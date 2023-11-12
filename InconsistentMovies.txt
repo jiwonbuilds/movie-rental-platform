@@ -1,0 +1,40 @@
+Movie Details - ID: MSe10, Title: Dough and Dynamite, Year: 1914, Director: null.
+Movie Details - ID: MSe15, Title: Fatty and Mabel at the San Diego Exposition, Year: 1915, Director: null.
+Movie Details - ID: MSe18, Title: Fatty and Mabel's Simple Life, Year: 1915, Director: null.
+Movie Details - ID: LB9, Title: El grand cavalcodos, Year: null, Director: Bunuel.
+Movie Details - ID: null, Title: Becky Sharp, Year: 1935, Director: Mamoulian.
+Movie Details - ID: null, Title: Rings on her Fingers, Year: 1942, Director: Mamoulian.
+Movie Details - ID: null, Title: Summer Holiday, Year: 1948, Director: Mamoulian.
+Movie Details - ID: null, Title: Silk Stockings, Year: 1957, Director: Mamoulian.
+Movie Details - ID: null, Title: Menschen am Sonntag, Year: 1929, Director: Edgar G. Ulmer.
+Movie Details - ID: null, Title: Pi\`eges, Year: 1939, Director: R.Siodmak.
+Movie Details - ID: null, Title: Son of Dracula, Year: 1943, Director: R.Siodmak.
+Movie Details - ID: null, Title: Cobra Woman, Year: 1944, Director: R.Siodmak.
+Movie Details - ID: null, Title: Phantom Lady, Year: 1944, Director: R.Siodmak.
+Movie Details - ID: null, Title: The Spiral Staircase, Year: 1945, Director: R.Siodmak.
+Movie Details - ID: null, Title: Nocturne, Year: 1946, Director: R.Siodmak.
+Movie Details - ID: null, Title: The Killers, Year: 1946, Director: R.Siodmak.
+Movie Details - ID: null, Title: The Dark Mirror, Year: 1946, Director: R.Siodmak.
+Movie Details - ID: null, Title: Criss Cross, Year: 1948, Director: R.Siodmak.
+Movie Details - ID: null, Title: The Spiral Staircase, Year: 1948, Director: R.Siodmak.
+Movie Details - ID: null, Title: The Crimson Pirate, Year: 1952, Director: R.Siodmak.
+Movie Details - ID: WS45, Title: Catherine of Russia, Year: null, Director: W.Staudte.
+Movie Details - ID: AS22, Title: Morgan Stewart's Coming Home, Year: null, Director: Alan~Smithee.
+Movie Details - ID: AS32, Title: Raging Angels, Year: null, Director: Alan~Smithee.
+Movie Details - ID: RHd2, Title: Stop Train 349, Year: null, Director: Haedrich .
+Movie Details - ID: IAv12, Title: Karate Kid, Year: null, Director: J.G.Avildsen .
+Movie Details - ID: MS0, Title: The Eternal City, Year: null, Director: Scorsese.
+Movie Details - ID: MS36, Title: Gangs of New York, Year: null, Director: Scorsese .
+Movie Details - ID: WiW30, Title: Buena Vista Social Club, Year: null, Director: Ullrich Felsberg.
+Movie Details - ID: DLy25, Title: Mulholland Drive, Year: null, Director: D.Lynch.
+Movie Details - ID: AEy13, Title: Sarabande, Year: null, Director: Egoyan.
+Movie Details - ID: CsS15, Title: Fairy Tale: A True Story, Year: null, Director: Sturridge.
+Movie Details - ID: BeM10, Title: Batman, Mask of The Phantasm, Year: 1993, Director: null.
+Movie Details - ID: KDo1x, Title: , Year: null, Director: .
+Movie Details - ID: TdC13, Title: Jerry and Tom, Year: null, Director: diCillo.
+Movie Details - ID: Z9590, Title: The Shanghai Triad, Year: null, Director: UnYear95.
+Movie Details - ID: AbK15, Title: Taste of Cherry, Year: null, Director: Kiarostami.
+Movie Details - ID: MkJ11, Title: The Matchmaker, Year: null, Director: M.Joffe.
+Movie Details - ID: MJu15, Title: All is Routine, Year: null, Director: M.Judge.
+Movie Details - ID: LDo10, Title: Knockout, Year: 2000, Director: null.
+Movie Details - ID: RSc10, Title: Crime + Punsihment in Suburbia, Year: 2000, Director: null.
