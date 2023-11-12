@@ -7,7 +7,7 @@ import java.util.*;
 
 public class MainSAXParser {
     private Connection connection;
-    private static final String LOGIN_URL = "jdbc:mysql:///moviedb?autoReconnect=true&useSSL=false";
+    private static final String LOGIN_URL = "jdbc:mysql://localhost:3306/moviedb";
     private static final String LOGIN_USER = "mytestuser";
     private static final String LOGIN_PASSWORD = "My6$Password";
 
@@ -22,16 +22,12 @@ public class MainSAXParser {
 
     public MainSAXParser() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(LOGIN_URL, LOGIN_USER, LOGIN_PASSWORD);
             System.out.println("db connection success");
 
             missingWriter = new BufferedWriter(new FileWriter("MissingStars.txt"));
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -236,8 +232,6 @@ public class MainSAXParser {
         long elapsedTimeMillis = endTime - startTime;
         double elapsedTimeMinutes = (double) elapsedTimeMillis / (60_000);
         System.out.println("Elapsed time: " + elapsedTimeMinutes + " minutes");
-
-        System.out.println("hello world");
     }
 }
 
