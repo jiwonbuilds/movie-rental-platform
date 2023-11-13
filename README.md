@@ -1,10 +1,10 @@
 ## CS 122B Project 3 (Jenny Lee)
 
 ### Video Demo Link
-(TBD)
+https://youtu.be/4zciFFHgEOk
 
 ### Website Link
-(TBD)
+https://3.144.30.29:8443/cs122b-project3
 
 ***
 
