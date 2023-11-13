@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <title>Add Movie</title>
+
+  <style>
+    .navbar-custom {
+      background-color: #5c6c7c;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-dark fixed-top w-200">
+  <a class="navbar-brand" href="#">
+    <img src="../fablix_logo.png" height="50" width="50" class="d-inline-block" alt="F">
+    Fablix
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add-movie.html">Add Movie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add-star.html">Add Star</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Add Genre</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../main.html">Browse Movies</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<h1>Add a Movie</h1>
+<form id="add_form" method="post" action="#">
+  <div class="form-group">
+    <label for="movieTitle">Movie Title</label>
+    <input name="movieTitle" placeholder="Movie Title" type="text" class="form-control" id="movieTitle">
+  </div>
+
+  <div class="form-group">
+    <label for="movieYear">Movie Year</label>
+    <input name="movieYear" placeholder="Released Year" type="text" class="form-control" id="movieYear">
+  </div>
+
+  <div class="form-group">
+    <label for="movieDirector">Movie Director</label>
+    <input name="movieDirector" placeholder="Movie Director" type="text" class="form-control" id="movieDirector">
+  </div>
+
+  <div class="form-group">
+    <label for="movieStarName">Movie Star Name</label>
+    <input name="movieStarName" placeholder="Star Name" type="text" class="form-control" id="movieStarName">
+  </div>
+
+  <div class="form-group">
+    <label for="movieStarYear">Movie Star Birth Year</label>
+    <input name="movieStarYear" placeholder="Star Year of Birth" type="text" class="form-control" id="movieStarYear">
+  </div>
+
+  <div class="form-group">
+    <label for="movieGenre">Movie Genre Name</label>
+    <input name="movieGenre" placeholder="Genre Name" type="text" class="form-control" id="movieGenre">
+  </div>
+
+  <button id="add" type="submit" class="btn btn-primary">Add</button>
+
+</form>
+<div id="add_error_message" class="mt-3"></div>
+
+<!-- Load jQuery and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Load our own JS file -->
+<!-- The path is relative to top20.html, since these two files are in the same directory -->
+<!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
+     otherwise the url is relative to the root path-->
+<script src="add-movie.js"></script>
+</body>
+<footer>
+  <p>Copyright &copy; 2023 Jenny Lee. All rights reserved.</p>
+</footer>
+
+</html>

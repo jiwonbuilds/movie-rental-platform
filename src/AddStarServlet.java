@@ -35,7 +35,6 @@ public class AddStarServlet extends HttpServlet {
 
 
     private String addStarToDb(String starName, String starYear) {
-        System.out.println("adding stars");
         try (Connection connection = dataSource.getConnection();
              CallableStatement statement = connection.prepareCall("{CALL InsertStar(?, ?, ?)}")) {
             statement.setString(1, starName);
@@ -62,11 +61,8 @@ public class AddStarServlet extends HttpServlet {
         String starName = request.getParameter("starName");
         String starYear = request.getParameter("starYear");
 
-        System.out.println("starName" + starName);
-
         String starId = addStarToDb(starName, starYear);
 
-        System.out.println("starid" + starId);
         response.setContentType("text/plain");
         if (starId == null) {
             response.getWriter().write("failed");
