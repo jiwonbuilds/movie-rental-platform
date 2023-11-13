@@ -1,0 +1,76 @@
+.navbar-brand {
+    font-family: "Gills Sans", serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+h1 {
+    margin-top: 6%;
+    color: #63e983 !important;
+    font-family: "Gill Sans", serif;
+    font-size: 200%;
+}
+
+h3 {
+    margin-top: 6%;
+    color: #63e983 !important;
+    font-family: "Gill Sans", serif;
+    font-size: 200%;
+}
+
+body {
+    background-color: #425569;
+    color: #c9ced4;
+    padding-top: 50px;
+    margin: 1% 5% 1% 5%;
+}
+
+a {
+    color: #63e983;
+    font-size: 100%;
+}
+
+a:hover {
+    color: #c9ced4;
+}
+
+p {
+    text-align: center;
+}
+
+footer {
+    margin-top: 6%;
+    color: #6c7b8c;
+    text-align: center;
+}
+
+
+#metadata {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#metadata table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+    border: 1px solid #dddddd;
+}
+
+#metadata th {
+    background-color: #63e983;
+    font-weight: bold;
+    border: 1px solid #dddddd;
+    color: #425569;
+}
+
+#metadata td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
