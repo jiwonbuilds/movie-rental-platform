@@ -13,8 +13,10 @@ public class MainSAXParser {
 
     private int insertedMovieCount = 0;
     private int insertedStarCount = 0;
+    private int insertedGenreCount = 0;
     private int insertedGenresInMoviesCount = 0;
     private int insertedStarsInMoviesCount = 0;
+    private int missingStarCount = 0;
     private int newStarId = 0;
     HashMap<String, Integer> genres = new HashMap<>();
     HashMap<String, String> stars = new HashMap<>();
@@ -24,8 +26,6 @@ public class MainSAXParser {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(LOGIN_URL, LOGIN_USER, LOGIN_PASSWORD);
-            System.out.println("db connection success");
-
             missingWriter = new BufferedWriter(new FileWriter("MissingStars.txt"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -38,6 +38,7 @@ public class MainSAXParser {
 
     private void closeFileWriter() {
         try {
+            System.out.println(missingStarCount + " stars not found.");
             missingWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +53,14 @@ public class MainSAXParser {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void printParserResult() {
+        System.out.println("Inserted " + insertedStarCount + " stars.");
+        System.out.println("Inserted " + insertedGenreCount + " genres.");
+        System.out.println("Inserted " + insertedMovieCount + " movies.");
+        System.out.println("Inserted " + insertedGenresInMoviesCount + " genres_in_movies.");
+        System.out.println("Inserted " + insertedStarsInMoviesCount + " stars_in_movies.");
     }
 
     private void getGenresFromDb() {
@@ -77,13 +86,13 @@ public class MainSAXParser {
                     genres.put(newGenre, newId++);
                     preparedStmt.setString(1, newGenre);
                     preparedStmt.addBatch();
+                    insertedGenreCount++;
                 }
             }
             preparedStmt.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("now have " + (newId - 1) + " genres.");
     }
     private void insertGenresInMovies(HashMap<String, Movie> newMovies) {
         String insertGenresIntoMoviesSQL = "INSERT IGNORE INTO genres_in_movies (genreId, movieId) VALUES (?, ?)";
@@ -103,10 +112,9 @@ public class MainSAXParser {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("inserted " + insertedGenresInMoviesCount + " into genres_in_movies.");
+
     }
     private int insertMovies(HashMap<String, Movie> movies) {
-        System.out.println("inserting " + movies.size() + " movies");
         String insertStarsSQL = "INSERT IGNORE INTO movies (id, title, year, director) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStmt = connection.prepareStatement(insertStarsSQL)) {
             for (Movie movie : movies.values()) {
@@ -124,18 +132,14 @@ public class MainSAXParser {
             for (int rowsAffected : insertResult) {
                 if (rowsAffected == 1) {
                     insertedMovieCount++;
-                } else {
-                    System.out.println("inserting movie failed");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Inserted " + insertedMovieCount + " movies");
         return insertedMovieCount;
     }
     private int insertStars(List<Star> newStars) {
-        System.out.println("inserting " + newStars.size() + " stars");
         String insertStarsSQL = "INSERT IGNORE INTO stars (id, name, birthYear) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStmt = connection.prepareStatement(insertStarsSQL)) {
             for (Star star : newStars) {
@@ -181,6 +185,7 @@ public class MainSAXParser {
                         try {
                             missingWriter.write(star.getStarName());
                             missingWriter.newLine();
+                            missingStarCount++;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -191,13 +196,9 @@ public class MainSAXParser {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("inserted " + insertedStarsInMoviesCount + " into stars_in_movies.");
     }
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-
-
         MainSAXParser mainParser = new MainSAXParser();
 
         // parse main243.xml
@@ -227,11 +228,7 @@ public class MainSAXParser {
 
         mainParser.closeFileWriter();
         mainParser.closeDbConnection();
-
-        long endTime = System.currentTimeMillis();
-        long elapsedTimeMillis = endTime - startTime;
-        double elapsedTimeMinutes = (double) elapsedTimeMillis / (60_000);
-        System.out.println("Elapsed time: " + elapsedTimeMinutes + " minutes");
+        mainParser.printParserResult();
     }
 }
 

@@ -63,7 +63,8 @@ public class MoviesSAXParser extends DefaultHandler {
     }
 
     private void printData() {
-        System.out.println("No of Movies '" + movies.size() + "'.");
+        System.out.println(inconsistencyCount + " movies inconsistent.");
+        System.out.println(duplicateCount + " movies duplicate.");
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException {

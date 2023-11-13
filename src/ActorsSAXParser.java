@@ -25,7 +25,7 @@ public class ActorsSAXParser extends DefaultHandler {
 
     public void runParser() {
         parseDocument();
-        printData();
+        // printData();
     }
 
     private void parseDocument() {

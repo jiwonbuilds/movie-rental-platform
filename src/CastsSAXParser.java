@@ -24,6 +24,7 @@ public class CastsSAXParser extends DefaultHandler {
     private Movie tempMovie;
 
     private int missingMovieCount = 0;
+    private int noStarMovieCount = 0;
     private BufferedWriter missingWriter;
     private BufferedWriter noStarWriter;
 
@@ -40,9 +41,9 @@ public class CastsSAXParser extends DefaultHandler {
 
     public void runParser() {
         parseDocument();
-        printData();
         recordMissingMovies();
         recordNoStarMovies();
+        printData();
         closeFileWriter();
     }
 
@@ -60,6 +61,7 @@ public class CastsSAXParser extends DefaultHandler {
             for (String movieId : missingMovies) {
                 missingWriter.write(movieId);
                 missingWriter.newLine();
+                missingMovieCount++;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,6 +74,7 @@ public class CastsSAXParser extends DefaultHandler {
                 if (!updatedMovies.contains(movieId)) {
                     noStarWriter.write(movieId);
                     noStarWriter.newLine();
+                    noStarMovieCount++;
                 }
             }
         } catch (IOException e) {
@@ -94,7 +97,8 @@ public class CastsSAXParser extends DefaultHandler {
     }
 
     private void printData() {
-        System.out.println("No of Star-Added Movies '" + updatedMovies.size() + "'.");
+        System.out.println(noStarMovieCount + " movies have no stars.");
+        System.out.println(missingMovieCount + " movies not found.");
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException {
