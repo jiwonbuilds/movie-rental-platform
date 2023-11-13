@@ -15,7 +15,7 @@ function handleMetadata(resultData) {
         });
 
         tableHTML += '</tbody></table>';
-        
+
         metadataElement.append(tableHTML);
     });
 }
