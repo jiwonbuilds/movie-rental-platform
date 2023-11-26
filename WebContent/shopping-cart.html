@@ -39,21 +39,17 @@
         <a class="nav-link" href="movies.html">Results</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" id="search_form" action="movies.html" method="get">
-      <div class="input-group mr-1">
-        <input type="text" class="form-control" name="mtitle" aria-label="Movie Title" placeholder="Title">
-      </div>
-      <div class="input-group mr-1">
-        <input type="text" class="form-control" name="myear" aria-label="Release Year" placeholder="Year">
-      </div>
-      <div class="input-group mr-1">
-        <input type="text" class="form-control" name="mdirector" aria-label="Movie Director" placeholder="Director">
-      </div>
-      <div class="input-group mr-1">
-        <input type="text" class="form-control" name="mstar" aria-label="Movie Star" placeholder="Star">
-      </div>
-      <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Search</button>
-    </form>
+    <div class="ml-auto">
+      <form class="form-inline my-2 my-lg-0" id="ft-search" action="movies.html" method="get">
+        <input type="text" name="mtitle" id="autocomplete"
+               class="autocomplete-searchbox form-control mr-2"
+               placeholder="Search Movies"/>
+        <input type="hidden" name="myear" value="">
+        <input type="hidden" name="mdirector" value="">
+        <input type="hidden" name="mstar" value="">
+        <button class="btn btn-outline-success my-2 my-sm-0 mr-4" type="submit">Search</button>
+      </form>
+    </div>
     <a href="shopping-cart.html" class="btn btn-success my-2 my-sm-0">Cart</a>
   </div>
 </nav>

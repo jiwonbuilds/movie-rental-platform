@@ -15,19 +15,21 @@ import javax.xml.transform.Result;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 // Declaring a WebServlet called MoviesServlet, which maps to url "/api/search"
 @WebServlet(name = "SearchServlet", urlPatterns = "/api/search")
 public class SearchServlet extends HttpServlet {
     public static final String GENRE_QUERY =
-    "SELECT G.id, G.name " +
-    "FROM genres_in_movies as GIM, genres as G " +
-    "WHERE GIM.genreId = G.id AND GIM.movieId = ? " +
-    "ORDER BY G.name ASC " +
-    "LIMIT 3; ";
+            "SELECT G.id, G.name " +
+                    "FROM genres_in_movies as GIM, genres as G " +
+                    "WHERE GIM.genreId = G.id AND GIM.movieId = ? " +
+                    "ORDER BY G.name ASC " +
+                    "LIMIT 3; ";
     public static final String STAR_QUERY =
             "SELECT S.id, S.name " +
                     "FROM stars as S, stars_in_movies as SIM " +
@@ -35,6 +37,11 @@ public class SearchServlet extends HttpServlet {
                     "GROUP BY S.id " +
                     "ORDER BY COUNT(SIM.movieId) DESC, S.name " +
                     "LIMIT 3; ";
+
+    public static final HashSet<String> stopWords = new HashSet<>(Arrays.asList(
+            "a", "about", "an", "are", "as", "at", "be", "by", "com", "de", "en", "for", "from", "how", "i", "in", "is",
+            "it", "la", "of", "on", "or", "that", "the", "this", "to", "was", "what", "when", "where", "who", "will",
+            "with", "und", "the", "www"));
 
     // Create a dataSource which registered in web.xml
     private DataSource dataSource;
@@ -121,7 +128,7 @@ public class SearchServlet extends HttpServlet {
         String filterQuery = "WHERE ";
         ArrayList<String> whereQuery = new ArrayList<>();
         if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
-            whereQuery.add("LOWER(M.title) LIKE ? ");
+            whereQuery.add("MATCH (M.title) AGAINST (? IN BOOLEAN MODE) ");
         }
         if (!"".equals(myear) && !myear.equals(session.getAttribute("myear"))) {
             whereQuery.add("M.year = ? ");
@@ -157,11 +164,22 @@ public class SearchServlet extends HttpServlet {
                 + "LIMIT ? "
                 + "OFFSET ? ";
 
+        String tokensQuery = "";
+        if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
+            List<String> filteredTokens = Arrays.stream(mtitle.split(" "))
+                    .map(String::toLowerCase)
+                    .filter(token -> !stopWords.contains(token))
+                    .collect(Collectors.toList());
+            tokensQuery = filteredTokens.stream()
+                    .map(token -> "+" + token + "*")
+                    .collect(Collectors.joining(" "));
+        }
+
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(BROWSE_QUERY)) {
             int parameterIndex = 1;
             if (!"".equals(mtitle) && !mtitle.equals(session.getAttribute("mtitle"))) {
-                preparedStatement.setString(parameterIndex++, "%" + mtitle + "%");
+                preparedStatement.setString(parameterIndex++, tokensQuery);
             }
             if (!"".equals(myear) && !myear.equals(session.getAttribute("myear"))) {
                 preparedStatement.setInt(parameterIndex++, Integer.parseInt(myear));
