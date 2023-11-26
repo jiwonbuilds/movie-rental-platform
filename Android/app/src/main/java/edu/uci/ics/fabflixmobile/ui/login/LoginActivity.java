@@ -10,10 +10,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import edu.uci.ics.fabflixmobile.data.NetworkManager;
 import edu.uci.ics.fabflixmobile.databinding.ActivityLoginBinding;
-import edu.uci.ics.fabflixmobile.ui.movielist.MovieListActivity;
+import edu.uci.ics.fabflixmobile.ui.search.SearchActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private final String host = "10.0.2.2";
     private final String port = "8080";
-    private final String domain = "cs122b_project2_login_cart_example_war";
+    private final String domain = "cs122b_project4_war";
     private final String baseURL = "http://" + host + ":" + port + "/" + domain;
 
     @Override
@@ -61,13 +65,21 @@ public class LoginActivity extends AppCompatActivity {
                 response -> {
                     // TODO: should parse the json response to redirect to appropriate functions
                     //  upon different response value.
-                    Log.d("login.success", response);
-                    //Complete and destroy login activity once successful
-                    finish();
-                    // initialize the activity(page)/destination
-                    Intent MovieListPage = new Intent(LoginActivity.this, MovieListActivity.class);
-                    // activate the list page.
-                    startActivity(MovieListPage);
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        if (jsonResponse.getString("status").equals("success")) {
+                            Log.d("login.success", response);
+                            finish();
+                            Intent SearchPage = new Intent(LoginActivity.this, SearchActivity.class);
+                            startActivity(SearchPage);
+                        } else {
+                            Log.d("login.error", jsonResponse.getString("message"));
+                            message.setText(jsonResponse.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("login.error", "Error parsing JSON response");
+                    }
                 },
                 error -> {
                     // error

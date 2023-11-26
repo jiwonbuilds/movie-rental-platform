@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:text="Movie Title (Year)"
             android:textColor="#63e983"
-            android:textSize="18sp"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rating"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Rating: 8.5"
             android:textColor="#c9ced4"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="8dp"
@@ -35,8 +36,10 @@
             android:layout_height="wrap_content"
             android:text="Director: John Doe"
             android:textColor="#c9ced4"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"/>
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_marginTop="10dp"/>
 
     <TextView
             android:id="@+id/genres"
@@ -44,9 +47,11 @@
             android:layout_height="wrap_content"
             android:text="Genres: Action, Drama"
             android:textColor="#c9ced4"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/director"/>
+            app:layout_constraintTop_toBottomOf="@id/director"
+            android:layout_marginTop="10dp"/>
 
     <TextView
             android:id="@+id/stars"
@@ -54,7 +59,9 @@
             android:layout_height="wrap_content"
             android:text="Stars: Actor1, Actor2, Actor3"
             android:textColor="#c9ced4"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/genres"/>
+            app:layout_constraintTop_toBottomOf="@id/genres"
+            android:layout_marginTop="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

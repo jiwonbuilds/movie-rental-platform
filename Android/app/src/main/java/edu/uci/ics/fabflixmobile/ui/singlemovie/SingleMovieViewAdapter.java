@@ -1,4 +1,4 @@
-package edu.uci.ics.fabflixmobile.ui.movielist;
+package edu.uci.ics.fabflixmobile.ui.singlemovie;
 
 import edu.uci.ics.fabflixmobile.R;
 import edu.uci.ics.fabflixmobile.data.model.Movie;
@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class MovieListViewAdapter extends ArrayAdapter<Movie> {
+public class SingleMovieViewAdapter extends ArrayAdapter<Movie> {
     private final ArrayList<Movie> movies;
 
     // View lookup cache
@@ -26,7 +26,7 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
         TextView stars;
     }
 
-    public MovieListViewAdapter(Context context, ArrayList<Movie> movies) {
+    public SingleMovieViewAdapter(Context context, ArrayList<Movie> movies) {
         super(context, R.layout.movielist_row, movies);
         this.movies = movies;
     }
@@ -60,7 +60,7 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
         viewHolder.rating.setText("☆" + movie.getRating());
         viewHolder.director.setText("Director: " + movie.getDirector());
         viewHolder.genres.setText("Genres: " + movie.getGenres());
-        viewHolder.stars.setText("Stars: " + movie.getStars());
+        viewHolder.genres.setText("Stars: " + movie.getStars());
         // Return the completed view to render on screen
         return convertView;
     }

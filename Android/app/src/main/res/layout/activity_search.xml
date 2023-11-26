@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#425569"
+    tools:context=".ui.search.SearchActivity">
+
+    <TextView
+    android:id="@+id/textFabflix"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Fabflix"
+    android:textSize="28sp"
+    android:textStyle="bold"
+    android:textColor="#63e983"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/guidelineCenterVertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guidelineCenterVertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.3"/>
+
+    <EditText
+    android:id="@+id/movieTitle"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:hint="Search for movies"
+    android:inputType="text"
+    android:textColorHint="#c9ced4"
+    android:textColor="#c9ced4"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/guidelineCenterVertical"
+    app:layout_constraintBottom_toTopOf="@+id/buttonSearch"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:imeOptions="actionSearch"/>
+
+    <Button
+    android:id="@+id/buttonSearch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Search"
+    android:textColor="#425569"
+    android:backgroundTint="#63e983"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/movieTitle"
+    android:layout_marginTop="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
