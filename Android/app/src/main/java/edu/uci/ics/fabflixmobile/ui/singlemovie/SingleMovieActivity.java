@@ -20,10 +20,6 @@ public class SingleMovieActivity extends AppCompatActivity {
     TextView director;
     TextView genres;
     TextView stars;
-    private final String host = "10.0.2.2";
-    private final String port = "8080";
-    private final String domain = "cs122b_project4_war";
-    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
