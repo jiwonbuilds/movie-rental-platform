@@ -1,8 +1,8 @@
 ## CS 122B Project 4 (Jenny Lee)
 
 ### Video Demo Link
-(TBD)
+https://youtu.be/xs4olBeOL-Y
 
 ### Website Link
-(TBD)
+https://18.118.141.11:8443/cs122b-project4
 
