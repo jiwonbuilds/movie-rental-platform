@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpSession;
 
 import javax.sql.DataSource;
 import javax.xml.transform.Result;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +49,7 @@ public class SearchServlet extends HttpServlet {
     // Create a dataSource which registered in web.xml
     private DataSource dataSource;
 
-    public void init(ServletConfig config) {
+    public void init() {
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
         } catch (NamingException e) {
@@ -108,6 +111,7 @@ public class SearchServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long servletStartTime = System.nanoTime();
 
         String BROWSE_QUERY =
                 "SELECT DISTINCT M.id, M.title, M.year, M.director, R.rating " +
@@ -194,7 +198,11 @@ public class SearchServlet extends HttpServlet {
             preparedStatement.setInt(parameterIndex++, rowCount);
             preparedStatement.setInt(parameterIndex, offset);
 
+            long jdbcElapsedTime;
+            long jdbcStartTime = System.nanoTime();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                long jdbcEndTime = System.nanoTime();
+                jdbcElapsedTime = jdbcEndTime - jdbcStartTime;
                 List<Movie> movies = getMoviesFromMySql(resultSet);
                 decorateMoviesWithGenres(movies, connection);
                 decorateMoviesWithStars(movies, connection);
@@ -203,9 +211,24 @@ public class SearchServlet extends HttpServlet {
                 for (Movie movie : movies) {
                     jsonArray.add(movie.toJsonObject());
                 }
-
                 response.getWriter().write(jsonArray.toString());
                 response.setStatus(HttpServletResponse.SC_OK);
+            }
+
+            long servletEndTime = System.nanoTime();
+            long servletElapsedTime = servletEndTime - servletStartTime;
+
+            String path = getServletContext().getRealPath("/") + "log.txt";
+            System.out.println(path);
+            try (FileWriter fileWriter = new FileWriter(path, true);
+                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                 PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
+                printWriter.println("JDBC Time: " + jdbcElapsedTime);
+                printWriter.println("Servlet Time: " + servletElapsedTime);
+
+                System.out.println("Wrote to a file");
+            } catch (IOException e) {
+                System.out.println("Could not write to a file");
             }
 
         } catch (Exception e) {

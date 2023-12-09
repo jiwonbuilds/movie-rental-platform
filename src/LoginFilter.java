@@ -51,6 +51,7 @@ public class LoginFilter implements Filter {
         allowedURIs.add("login.js");
         allowedURIs.add("login.css");
         allowedURIs.add("api/login");
+        allowedURIs.add("api/search");
         allowedURIs.add("api/employee/login");
         allowedURIs.add("fablix_logo.png");
     }
