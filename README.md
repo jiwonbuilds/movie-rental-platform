@@ -20,9 +20,23 @@
 
 - # Master/Slave
   - #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+  > - AddMovieServlet.java 
+  > - AddStarServlet.java 
+  > - AutoCompleteServlet.java 
+  > - BrowseServlet.java 
+  > - EmployeeLoginServlet.java 
+  > - IndexServlet.java 
+  > - LoginServlet.java 
+  > - PaymentServlet.java 
+  > - SearchServlet.java 
+  > - SelectionServlet.java 
+  > - ShoppingCartServlet.java 
+  > - SingleMovieServlet.java 
+  > - SingleStarServlet.java 
+  > - Top20Servlet.java
 
   - #### How read/write requests were routed to Master/Slave SQL?
-
+  > WRITE SOMETHING HERE
 
 - # JMeter TS/TJ Time Logs
   - #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.

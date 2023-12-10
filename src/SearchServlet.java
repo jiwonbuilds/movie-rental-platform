@@ -52,6 +52,7 @@ public class SearchServlet extends HttpServlet {
     public void init() {
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+//            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/slave");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -225,7 +226,6 @@ public class SearchServlet extends HttpServlet {
                  PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
                 printWriter.println("JDBC Time: " + jdbcElapsedTime);
                 printWriter.println("Servlet Time: " + servletElapsedTime);
-
                 System.out.println("Wrote to a file");
             } catch (IOException e) {
                 System.out.println("Could not write to a file");
