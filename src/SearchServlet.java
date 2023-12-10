@@ -199,7 +199,7 @@ public class SearchServlet extends HttpServlet {
             preparedStatement.setInt(parameterIndex++, rowCount);
             preparedStatement.setInt(parameterIndex, offset);
 
-            long jdbcElapsedTime;
+            long jdbcElapsedTime = 0;
             long jdbcStartTime = System.nanoTime();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 List<Movie> movies = getMoviesFromMySql(resultSet);
