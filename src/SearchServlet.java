@@ -202,11 +202,11 @@ public class SearchServlet extends HttpServlet {
             long jdbcElapsedTime;
             long jdbcStartTime = System.nanoTime();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                long jdbcEndTime = System.nanoTime();
-                jdbcElapsedTime = jdbcEndTime - jdbcStartTime;
                 List<Movie> movies = getMoviesFromMySql(resultSet);
                 decorateMoviesWithGenres(movies, connection);
                 decorateMoviesWithStars(movies, connection);
+                long jdbcEndTime = System.nanoTime();
+                jdbcElapsedTime = jdbcEndTime - jdbcStartTime;
 
                 JsonArray jsonArray = new JsonArray();
                 for (Movie movie : movies) {

@@ -10,9 +10,9 @@ def calculate_avg_times(file_names):
 
             for line in lines:
                 if line.startswith("JDBC Time"):
-                    jdbc_times.append(int(line.split(":")[1].strip()))
+                    jdbc_times.append(int(line.split(":")[1].strip()) / 1000000.0)
                 elif line.startswith("Servlet Time"):
-                    servlet_times.append(int(line.split(":")[1].strip()))
+                    servlet_times.append(int(line.split(":")[1].strip()) / 1000000.0)
 
     if not jdbc_times or not servlet_times:
         print("No data found in the files.")
