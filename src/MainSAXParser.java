@@ -7,7 +7,7 @@ import java.util.*;
 
 public class MainSAXParser {
     private Connection connection;
-    private static final String LOGIN_URL = "jdbc:mysql://localhost:3306/moviedb";
+    private static final String LOGIN_URL = "jdbc:mysql://18.191.132.56:3306/moviedb";
     private static final String LOGIN_USER = "mytestuser";
     private static final String LOGIN_PASSWORD = "My6$Password";
 
