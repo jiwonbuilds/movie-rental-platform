@@ -54,8 +54,8 @@
 | Case 3: HTTPS/10 threads                       | ![](logs/imgs/single_https_10threads.png)            | 219                        | 4.72400                              | 4.06265                  | ??           |
 | Case 4: HTTP/10 threads/No connection pooling  | ![](logs/imgs/single_http_10threads_ncp.png) | 273                        | 5.30742                            | 3.71432                  | ??           |
 
-| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| **Scaled Version Test Plan**                   | **Graph Results Screenshot**                | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
+|------------------------------------------------|---------------------------------------------|----------------------------|-----------------------------------|-------------------------|--------------|
+| Case 1: HTTP/1 thread                          | ![](path to image in img/)                  | ??                         | ??                                | ??                      | ??           |
+| Case 2: HTTP/10 threads                        | ![](path to image in img/)                  | ??                         | ??                                | ??                      | ??           |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](logs/imgs/scaled_http_10threads_ncp.png) | 222                        | 10.84194                                  | 6.32775                        | ??           |
