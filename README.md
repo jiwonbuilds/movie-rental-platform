@@ -87,7 +87,7 @@
 - # JMeter TS/TJ Time Logs
   - #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
   > 1. Open a terminal or command prompt.
-  > 2. Use the following command format: ```python PATH_TO_FILE/log_processing.py file1.txt file2.txt```
+  > 2. Use the following command format: ```python PATH_TO_FILE/log_processing.py file1.txt file2.txt```.
   >   Replace ```file1.txt``` and ```file2.txt``` with the actual names of the files you want to analyze.
   > 3. Execute the command and review the displayed average JDBC and Servlet times.
 
